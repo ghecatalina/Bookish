@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bookish.Models
 {
-    internal class Admin
+    public class Admin : User
     {
     }
 }

@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bookish.Models
+namespace Bookish
 {
-    internal class WantToReadList
+    public enum ListType
     {
+        Read,
+        CurrentlyReading,
+        WantToRead
     }
 }

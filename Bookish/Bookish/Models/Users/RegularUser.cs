@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Bookish.Models
 {
-    internal class RegularUser
+    public class RegularUser : User
     {
+        
+        public string ProfilePicture { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
+        public BookList Read { get; set; }
+        public BookList CurrentlyReading { get; set; }
+        public BookList WantToRead { get; set; }
     }
 }
