@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Bookish.Models
+﻿namespace Domain
 {
     public class Book
     {
@@ -14,8 +8,6 @@ namespace Bookish.Models
         public string Description { get; set; }
         public string Genre { get; set; }
         public string BookCoverImage { get; set; }
-        public virtual ICollection<Review> Reviews { get; set; }
-
-        
+        public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
     }
 }
