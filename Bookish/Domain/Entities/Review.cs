@@ -1,8 +1,7 @@
 ﻿namespace Domain
 {
-    public class Review
+    public class Review : BaseEntity
     {
-        public int Id { get; set; }
         public string ReviewDescription { get; set; }
         public double Rating { get; set; }
         public int UserId { get; set; }
