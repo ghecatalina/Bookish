@@ -12,11 +12,6 @@
 
   <ItemGroup>
     <Folder Include="BookLists\Commands\" />
-    <Folder Include="BookLists\Queries\" />
-    <Folder Include="Reviews\Commands\" />
-    <Folder Include="Reviews\Queries\" />
-    <Folder Include="Users\Commands\" />
-    <Folder Include="Users\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

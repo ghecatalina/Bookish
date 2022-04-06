@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Domain;
+using MediatR;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain
+namespace Application.Books.Queries.GetBookById
 {
-    public class BaseEntity
+    public class GetBookByIdQuery : IRequest<Book>
     {
-        [Key]
         public int Id { get; set; }
     }
 }

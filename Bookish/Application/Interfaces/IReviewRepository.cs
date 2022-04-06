@@ -8,5 +8,6 @@ namespace Application.Interfaces
     {
         IEnumerable<Review> GetReviewsByUser(int userId);
         IEnumerable<Review> GetReviewsByBook(int bookId);
+        Review GetReviewsByUserAndBook(int userId, int bookId);
     }
 }

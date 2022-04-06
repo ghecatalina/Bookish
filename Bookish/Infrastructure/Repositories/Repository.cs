@@ -19,9 +19,11 @@ namespace Infrastructure
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _entities = context.Set<T>();
         }
+        
         public void Add(T entity)
         {
             _entities.Add(entity);
+            _context.SaveChanges();
         }
         public IEnumerable<T> GetAll()
         {
@@ -37,6 +39,7 @@ namespace Infrastructure
         {
             var entity = _entities.Find(id);
             _entities.Remove(entity);
+            _context.SaveChanges();
         }
     }
 }

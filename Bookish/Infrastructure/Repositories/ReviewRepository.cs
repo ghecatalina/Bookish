@@ -24,5 +24,10 @@ namespace Infrastructure
         {
             return GetAll().Where(r => r.UserId == userId);
         }
+
+        public Review GetReviewsByUserAndBook(int userId, int bookId)
+        {
+            return GetAll().Where(r => r.UserId == userId && r.BookId == bookId).FirstOrDefault();
+        }
     }
 }
