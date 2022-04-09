@@ -7,6 +7,7 @@
         public string Description { get; set; }
         public string Genre { get; set; }
         public string BookCoverImage { get; set; }
-        public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
+        public ICollection<BookList> BookLists { get; set; } = new List<BookList>();
     }
 }

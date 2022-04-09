@@ -11,11 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BookLists\Commands\" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="10.0.1" />
+    <Folder Include="BookLists\Commands\" />
+    <Folder Include="BookLists\Queries\" />
   </ItemGroup>
 
 </Project>

@@ -4,6 +4,6 @@
     {
         public int UserId { get; set; }
         public ListType ListType { get; set; }
-        public ICollection<Book> Books { get; set; } = new List<Book>();
+        public ICollection<Book> Books { get; set; }
     }
 }

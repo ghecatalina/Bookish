@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220406210029_initial_migration")]
-    partial class initial_migration
+    [Migration("20220407134320_initial-migration")]
+    partial class initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,21 @@ namespace Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("BookBookList", b =>
+                {
+                    b.Property<int>("BookListsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BooksId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BookListsId", "BooksId");
+
+                    b.HasIndex("BooksId");
+
+                    b.ToTable("BookBookList");
+                });
 
             modelBuilder.Entity("Domain.Book", b =>
                 {
@@ -40,9 +55,6 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("BookListId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -56,8 +68,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BookListId");
 
                     b.ToTable("Books");
                 });
@@ -119,6 +129,10 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -134,13 +148,56 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
                 });
 
-            modelBuilder.Entity("Domain.Book", b =>
+            modelBuilder.Entity("Domain.Admin", b =>
+                {
+                    b.HasBaseType("Domain.User");
+
+                    b.HasDiscriminator().HasValue("Admin");
+                });
+
+            modelBuilder.Entity("Domain.RegularUser", b =>
+                {
+                    b.HasBaseType("Domain.User");
+
+                    b.Property<int?>("CurrentlyReadingId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProfilePicture")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ReadId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WantToReadId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("CurrentlyReadingId");
+
+                    b.HasIndex("ReadId");
+
+                    b.HasIndex("WantToReadId");
+
+                    b.HasDiscriminator().HasValue("RegularUser");
+                });
+
+            modelBuilder.Entity("BookBookList", b =>
                 {
                     b.HasOne("Domain.BookList", null)
-                        .WithMany("Books")
-                        .HasForeignKey("BookListId");
+                        .WithMany()
+                        .HasForeignKey("BookListsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Book", null)
+                        .WithMany()
+                        .HasForeignKey("BooksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Review", b =>
@@ -151,8 +208,8 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.User", "User")
-                        .WithMany()
+                    b.HasOne("Domain.RegularUser", "User")
+                        .WithMany("Reviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -162,14 +219,35 @@ namespace Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Domain.RegularUser", b =>
+                {
+                    b.HasOne("Domain.BookList", "CurrentlyReading")
+                        .WithMany()
+                        .HasForeignKey("CurrentlyReadingId");
+
+                    b.HasOne("Domain.BookList", "Read")
+                        .WithMany()
+                        .HasForeignKey("ReadId");
+
+                    b.HasOne("Domain.BookList", "WantToRead")
+                        .WithMany()
+                        .HasForeignKey("WantToReadId");
+
+                    b.Navigation("CurrentlyReading");
+
+                    b.Navigation("Read");
+
+                    b.Navigation("WantToRead");
+                });
+
             modelBuilder.Entity("Domain.Book", b =>
                 {
                     b.Navigation("Reviews");
                 });
 
-            modelBuilder.Entity("Domain.BookList", b =>
+            modelBuilder.Entity("Domain.RegularUser", b =>
                 {
-                    b.Navigation("Books");
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

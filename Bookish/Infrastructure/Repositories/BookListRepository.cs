@@ -24,5 +24,11 @@ namespace Infrastructure
         {
             user.WantToRead.Books.Add(book);
         }
+
+        public IEnumerable<BookList> GetReadList(int userId)
+        {
+            var result = GetAll().Where(x => x.UserId == userId);
+            return result;
+        }
     }
 }

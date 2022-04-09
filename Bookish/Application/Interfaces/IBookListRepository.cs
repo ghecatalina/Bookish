@@ -12,5 +12,6 @@ namespace Application.Interfaces
         void AddBookToRead(RegularUser user, Book book);
         void AddBookToWantToRead(RegularUser user, Book book);
         void AddBookToCurrentlyReading(RegularUser user, Book book);
+        public IEnumerable<BookList> GetReadList(int userId);
     }
 }

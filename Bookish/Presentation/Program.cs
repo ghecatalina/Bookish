@@ -2,13 +2,13 @@
 using Application.Interfaces;
 using Application.Users.Commands.CreateUser;
 using Application.Books.Commands.CreateBook;
-using Domain;
 using Infrastructure;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Users.Queries.GetUsers;
 using Application.Reviews.Commands.CreateReview;
 using Application.Reviews.Queries.GetReviewsByBook;
+using Application.Users.Commands.CreateRegularUser;
 
 var diContainer = new ServiceCollection()
                .AddDbContext<AppDbContext>()
@@ -16,15 +16,17 @@ var diContainer = new ServiceCollection()
                .AddScoped<IBookRepository, BookRepository>()
                .AddScoped<IUserRepository, UserRepository>()
                .AddScoped<IReviewRepository, ReviewRepository>()
+               .AddScoped<IBookListRepository, BookListRepository>()
                .BuildServiceProvider();
 
 var mediator = diContainer.GetRequiredService<IMediator>();
 
-var user1 = await mediator.Send(new CreateUserCommand
+var user1 = await mediator.Send(new CreateRegularUserCommand
 {
     Email = "vlad@gmail.com",
     Name = "Vlad",
-    Password = "1234"
+    Password = "1234",
+    ProfilePicture = "profile picture"
 });
 
 var user2 = await mediator.Send(new CreateUserCommand
@@ -50,23 +52,3 @@ foreach (var user in users)
 
 var review = await mediator.Send(new CreateReviewCommand { ReviewDescription = "my review", Rating = 5, BookId = book1.Id, UserId = user1.Id });
 var reviews = await mediator.Send(new GetReviewsByBookQuery { BookId = book1.Id});
-
-
-/*var bookId = await mediator.Send(new CreateBookCommand
-{
-    Author = "Liviu Rebreanu",
-    Title = "Adam si Eva"
-});
-
-Console.WriteLine($"Order created with {bookId}");*/
-
-//var databaseContext = new AppDbContext();
-/*var book = new Book { Author = "Daniel Keyes", Title = "Flori pentru Algernon", BookCoverImage = "cover img", Description = "description", Genre = "fiction" };
-databaseContext.Books.Add(book);
-databaseContext.SaveChanges();
-var user = new User { Email = "ana@gmail.com", Name = "Ana", Password = "1234" };
-databaseContext.Users.Add(user);
-databaseContext.SaveChanges();
-var review = new Review { User = user, Book = book, UserId = user.Id, BookId = book.Id, Rating = 5, ReviewDescription = "Such a lovely book"};
-databaseContext.Reviews.Add(review);
-databaseContext.SaveChanges();*/
