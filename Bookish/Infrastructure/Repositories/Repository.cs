@@ -5,7 +5,7 @@ namespace Infrastructure
 {
     public class Repository<T> : IRepository<T> where T : Domain.BaseEntity
     {
-        private readonly AppDbContext _context;
+        protected readonly AppDbContext _context;
         private readonly DbSet<T> _entities;
 
         public Repository(AppDbContext context)
@@ -33,6 +33,11 @@ namespace Infrastructure
         {
             var entity = _entities.Find(id);
             _entities.Remove(entity);
+            _context.SaveChanges();
+        }
+
+        public void Save()
+        {
             _context.SaveChanges();
         }
     }

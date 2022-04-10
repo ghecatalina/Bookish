@@ -18,7 +18,16 @@ namespace Application.Users.Commands.CreateRegularUser
         }
         public Task<RegularUser> Handle(CreateRegularUserCommand request, CancellationToken cancellationToken)
         {
-            var user = new RegularUser { Email = request.Email, Name = request.Name, Password = request.Password, ProfilePicture = request.ProfilePicture };
+            var user = new RegularUser 
+            { 
+                Email = request.Email, 
+                Name = request.Name, 
+                Password = request.Password, 
+                ProfilePicture = request.ProfilePicture,
+                Read = new BookList { ListType = ListType.Read , Books = new List<Book>()},
+                CurrentlyReading = new BookList { ListType = ListType.CurrentlyReading, Books = new List<Book>() },
+                WantToRead = new BookList { ListType = ListType.WantToRead, Books = new List<Book>() },
+            };
             _repository.Add(user);
 
             return Task.FromResult(user);
