@@ -6,5 +6,6 @@ namespace Application.Interfaces
     public interface IUserRepository : IRepository<User>
     {
         //Task ChangeUserDetails(string userId, string username, string password);
+        Task<User> LoginUser(string email, string password);
     }
 }

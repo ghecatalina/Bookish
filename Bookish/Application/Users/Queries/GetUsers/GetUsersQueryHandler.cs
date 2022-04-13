@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Domain;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,25 +9,17 @@ using System.Threading.Tasks;
 
 namespace Application.Users.Queries.GetUsers
 {
-    internal class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, IEnumerable<UserViewModel>>
+    internal class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, IEnumerable<User>>
     {
         private readonly IUserRepository _repository;
         public GetUsersQueryHandler(IUserRepository repository)
         {
             _repository = repository;
         }
-        public Task<IEnumerable<UserViewModel>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+        public Task<IEnumerable<User>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
-            var result = _repository
-               .GetAll()
-               .Result
-               .Select(user => new UserViewModel
-               {
-                   Id = user.Id,
-                   Name = user.Name,
-                   Email = user.Email,
-               });
-            return Task.FromResult(result);
+            var result = _repository.GetAll();
+            return result;
         }
     }
 }
