@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Users.Commands.CreateRegularUser
 {
-    public class CreateRegularUserCommand : IRequest<RegularUser>
+    public class CreateRegularUserCommand : IRequest<Unit>
     {
         public string Name { get; set; }
         public string Email { get; set; }

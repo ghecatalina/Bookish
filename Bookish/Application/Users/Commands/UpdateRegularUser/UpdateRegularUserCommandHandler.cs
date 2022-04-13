@@ -16,9 +16,9 @@ namespace Application.Users.Commands.UpdateRegularUser
         {
             _repository = repository;
         }
-        public Task<RegularUser> Handle(UpdateRegularUserCommand request, CancellationToken cancellationToken)
+        public async Task<RegularUser> Handle(UpdateRegularUserCommand request, CancellationToken cancellationToken)
         {
-            RegularUser user = _repository.GetByIdWithBookLists(request.Id);
+            RegularUser user =await _repository.GetByIdWithBookLists(request.Id);
             user.Name = request.Name;
             user.Email = request.Email;
             user.Password = request.Password;
@@ -27,9 +27,9 @@ namespace Application.Users.Commands.UpdateRegularUser
             user.Read = request.Read;
             user.CurrentlyReading = request.CurrentlyReading;
             user.WantToRead = request.WantToRead;
-            _repository.Update(user);
-            _repository.Save();
-            return Task.FromResult(user);
+            //_repository.Update(user);
+            await _repository.Save();
+            return user;
             
         }
     }

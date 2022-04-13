@@ -14,31 +14,31 @@ namespace Infrastructure
             _entities = context.Set<T>();
         }
         
-        public void Add(T entity)
+        public async Task Add(T entity)
         {
-            _entities.Add(entity);
-            _context.SaveChanges();
+           await _entities.AddAsync(entity);
+           await _context.SaveChangesAsync();
         }
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
-            return _entities.ToList();
-        }
-
-        public T GetById(int id)
-        {
-            return _entities.Find(id);   
+            return await _entities.ToListAsync();
         }
 
-        public void Delete(int id)
+        public async Task<T> GetById(int id)
         {
-            var entity = _entities.Find(id);
+            return await _entities.FindAsync(id);   
+        }
+
+        public async Task Delete(int id)
+        {
+            var entity =await _entities.FindAsync(id);
             _entities.Remove(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Save()
+        public async Task Save()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

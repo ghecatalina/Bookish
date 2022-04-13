@@ -6,8 +6,8 @@ namespace Application.Interfaces
 {
     public interface IReviewRepository : IRepository<Review>
     {
-        IEnumerable<Review> GetReviewsByUser(int userId);
-        IEnumerable<Review> GetReviewsByBook(int bookId);
-        Review GetReviewsByUserAndBook(int userId, int bookId);
+        Task<IEnumerable<Review>> GetReviewsByUser(int userId);
+        Task<IEnumerable<Review>> GetReviewsByBook(int bookId);
+        Task<Review> GetReviewsByUserAndBook(int userId, int bookId);
     }
 }

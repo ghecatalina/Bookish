@@ -12,6 +12,9 @@ using Application.Users.Commands.CreateRegularUser;
 using Application.Users.Commands.UpdateRegularUser;
 using Infrastructure.Repositories;
 using Application.Books.Queries.GetBookById;
+using Application.Users.Commands.AddBookToReadList;
+using Application.Users.Queries.GetReadList;
+using Application.Users.Queries.GetRegularUserById;
 
 var diContainer = new ServiceCollection()
                .AddDbContext<AppDbContext>()
@@ -19,13 +22,13 @@ var diContainer = new ServiceCollection()
                .AddScoped<IBookRepository, BookRepository>()
                .AddScoped<IUserRepository, UserRepository>()
                .AddScoped<IReviewRepository, ReviewRepository>()
-               .AddScoped<IBookListRepository, BookListRepository>()
                .AddScoped<IRegularUserRepository, RegularUserRepository>()
                .BuildServiceProvider();
 
 var mediator = diContainer.GetRequiredService<IMediator>();
 
-/*var user1 = await mediator.Send(new CreateRegularUserCommand
+/*
+var user1 = await mediator.Send(new CreateRegularUserCommand
 {
     Email = "vlad@gmail.com",
     Name = "Vlad",
@@ -43,31 +46,16 @@ var user2 = await mediator.Send(new CreateUserCommand
 var book1 = await mediator.Send(new CreateBookCommand { Author = "Deniel Keyes", Title = "Flori pentru Algernon", BookCoverImage = "cover img", Genre = "fiction", Description = "description" });
 var book2 = await mediator.Send(new CreateBookCommand { Author = "Stacey Halls", Title = "Doamna England", BookCoverImage = "cover img", Genre = "fiction", Description = "description" });
 var books = await mediator.Send(new GetBooksQuery());
-foreach (var book in books)
+foreach (var bookEx in books)
 {
-    Console.WriteLine($"{book.Title} -> {book.Author}");
+    Console.WriteLine($"{bookEx.Title} -> {bookEx.Author}");
 }
 
 var users = await mediator.Send(new GetUsersQuery());
-foreach (var user in users)
+foreach (var userEx in users)
 {
-    Console.WriteLine($"{user.Id}: {user.Name}");
+    Console.WriteLine($"{userEx.Id}: {userEx.Name}");
 }
-
-user1.Read.Books.Add(book1);
-
-var new_user = await mediator.Send(new UpdateRegularUserCommand
-{
-    Id = user1.Id,
-    Name = "Vlad Vlad",
-    Email = user1.Email,
-    Password = user1.Password,
-    ProfilePicture = user1.ProfilePicture,
-    Read = user1.Read,
-    CurrentlyReading = user1.CurrentlyReading,
-    WantToRead = user1.WantToRead,
-    Reviews = user1.Reviews,
-});*/
 
 var user = await mediator.Send(new CreateRegularUserCommand
 {
@@ -77,17 +65,38 @@ var user = await mediator.Send(new CreateRegularUserCommand
     ProfilePicture = "profile picture"
 });
 
-var book = await mediator.Send(new GetBookByIdQuery { Id = 1 });
-user.Read.Books.Add(book);
-var new_user = await mediator.Send(new UpdateRegularUserCommand
+var add = await mediator.Send(new AddBookToReadCommand
 {
-    Id = user.Id,
-    Name = "Vlad Vlad",
-    Email = user.Email,
-    Password = user.Password,
-    ProfilePicture = user.ProfilePicture,
-    Read = user.Read,
-    CurrentlyReading = user.CurrentlyReading,
-    WantToRead = user.WantToRead,
-    Reviews = user.Reviews,
-}); 
+    UserId = 1,
+    BookId = 1,
+});
+
+*/
+var book = await mediator.Send(new GetBookByIdQuery { Id = 1 });
+Console.WriteLine(book.Title);
+
+var read = await mediator.Send(new GetReadListQuery { Id = 1});
+if (read == null)
+{
+    Console.WriteLine("No books");
+}
+else
+{
+    if (read.Books == null)
+    {
+        Console.WriteLine("No books");
+    }
+    else
+    {
+        foreach (var bookEx in read.Books)
+        {
+            Console.WriteLine("read -> " + bookEx.Title);
+        }
+    }
+}
+Console.WriteLine("here");
+var foundUser = await mediator.Send(new GetRegularUserByIdQuery { Id=1 });
+if (foundUser != null)
+{
+    Console.WriteLine(foundUser.Read.Books.ElementAt(0).Title);
+}

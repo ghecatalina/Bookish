@@ -5,10 +5,10 @@ namespace Application.Interfaces
 {
     public interface IRepository<T> where T : BaseEntity
     {
-        IEnumerable<T> GetAll();
-        T GetById(int id);
-        void Add(T entity);
-        void Delete(int id);
-        void Save();
+        Task<IEnumerable<T>> GetAll();
+        Task<T> GetById(int id);
+        Task Add(T entity);
+        Task Delete(int id);
+        Task Save();
     }
 }

@@ -9,19 +9,19 @@ using System.Threading.Tasks;
 
 namespace Application.Users.Commands.CreateUser
 {
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, User>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Unit>
     {
         private readonly IUserRepository _repository;
         public CreateUserCommandHandler(IUserRepository repository)
         {
             _repository = repository;
         }
-        public Task<User> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var user = new User { Email = request.Email, Name = request.Name, Password = request.Password};
-            _repository.Add(user);
+            await _repository.Add(user);
 
-            return Task.FromResult(user);
+            return Unit.Value;
         }
     }
 }

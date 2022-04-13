@@ -19,7 +19,7 @@ namespace Application.Reviews.Queries.GetReviewByUserAndBook
         public Task<Review> Handle(GetReviewByUserAndBookQuery request, CancellationToken cancellationToken)
         {
             var review = _repository.GetReviewsByUserAndBook(request.UserId, request.BookId);
-            return Task.FromResult(review);
+            return review;
             
         }
     }

@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Application.Users.Commands.CreateRegularUser
 {
-    internal class CreateRegularUserCommandHandler : IRequestHandler<CreateRegularUserCommand, RegularUser>
+    internal class CreateRegularUserCommandHandler : IRequestHandler<CreateRegularUserCommand, Unit>
     {
         private readonly IUserRepository _repository;
         public CreateRegularUserCommandHandler(IUserRepository repository)
         {
             _repository = repository;
         }
-        public Task<RegularUser> Handle(CreateRegularUserCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateRegularUserCommand request, CancellationToken cancellationToken)
         {
             var user = new RegularUser 
             { 
@@ -24,13 +24,13 @@ namespace Application.Users.Commands.CreateRegularUser
                 Name = request.Name, 
                 Password = request.Password, 
                 ProfilePicture = request.ProfilePicture,
-                Read = new BookList { ListType = ListType.Read , Books = new List<Book>()},
-                CurrentlyReading = new BookList { ListType = ListType.CurrentlyReading, Books = new List<Book>() },
-                WantToRead = new BookList { ListType = ListType.WantToRead, Books = new List<Book>() },
+                //Read = new BookList { ListType = ListType.Read , Books = new List<Book>()},
+                //CurrentlyReading = new BookList { ListType = ListType.CurrentlyReading, Books = new List<Book>() },
+                //WantToRead = new BookList { ListType = ListType.WantToRead, Books = new List<Book>() },
             };
-            _repository.Add(user);
+            await _repository.Add(user);
 
-            return Task.FromResult(user);
+            return Unit.Value;
         }
     }
 }

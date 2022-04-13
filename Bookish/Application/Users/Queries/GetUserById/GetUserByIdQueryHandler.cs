@@ -19,7 +19,7 @@ namespace Application.Users.Queries.GetUserById
         public Task<User> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
             var user = _repository.GetById(request.Id);
-            return Task.FromResult(user);
+            return user;
         }
     }
 }

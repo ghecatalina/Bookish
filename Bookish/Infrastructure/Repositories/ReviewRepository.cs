@@ -1,11 +1,6 @@
-﻿using Application;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
 {
@@ -14,20 +9,24 @@ namespace Infrastructure
         public ReviewRepository(AppDbContext context) : base(context)
         {
         }
-
-        public IEnumerable<Review> GetReviewsByBook(int bookId)
+        private AppDbContext appDbContext
         {
-            return GetAll().Where(r => r.BookId == bookId);
+            get { return _context as AppDbContext; }
         }
 
-        public IEnumerable<Review> GetReviewsByUser(int userId)
+        public async Task<IEnumerable<Review>> GetReviewsByBook(int bookId)
         {
-            return GetAll().Where(r => r.UserId == userId);
+            return await appDbContext.Reviews.Where(review => review.BookId == bookId).ToListAsync();
         }
 
-        public Review GetReviewsByUserAndBook(int userId, int bookId)
+        public async Task<IEnumerable<Review>> GetReviewsByUser(int userId)
         {
-            return GetAll().Where(r => r.UserId == userId && r.BookId == bookId).FirstOrDefault();
+            return await appDbContext.Reviews.Where(review => review.UserId == userId).ToListAsync();
+        }
+
+        public async Task<Review> GetReviewsByUserAndBook(int userId, int bookId)
+        {
+            return await appDbContext.Reviews.Where(review => review.UserId == userId && review.BookId == bookId).SingleOrDefaultAsync();
         }
     }
 }

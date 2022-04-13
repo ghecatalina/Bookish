@@ -19,6 +19,7 @@ namespace Application.Users.Queries.GetUsers
         {
             var result = _repository
                .GetAll()
+               .Result
                .Select(user => new UserViewModel
                {
                    Id = user.Id,

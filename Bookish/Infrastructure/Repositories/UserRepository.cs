@@ -24,14 +24,5 @@ namespace Infrastructure
         {
             
         }
-
-        public User? GetByIdWithBookLists(int id)
-        {
-            return _appDbContext.RegularUsers
-                .Include(u => u.Read)
-                .Include(u => u.CurrentlyReading)
-                .Include(u => u.WantToRead)
-                .SingleOrDefault(u => u.Id == id);
-        }
     }
 }

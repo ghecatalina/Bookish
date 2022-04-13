@@ -20,18 +20,24 @@ namespace Infrastructure.Repositories
             get { return _context as AppDbContext; }
         }
 
-        public void Update(RegularUser user)
+        public async Task<RegularUser?> GetByIdWithBookLists(int id)
         {
-            appDbContext.Update(user);
+            return await appDbContext.RegularUsers
+                .Include(u => u.Read)
+                .Include(u => u.Read.Books)
+                .Include(u => u.CurrentlyReading)
+                .Include(u => u.CurrentlyReading.Books)
+                .Include(u => u.WantToRead)
+                .Include(u => u.WantToRead.Books)
+                .SingleOrDefaultAsync(u => u.Id == id);
         }
 
-        public RegularUser? GetByIdWithBookLists(int id)
+        public async Task<BookList> GetReadList(int id)
         {
-            return appDbContext.RegularUsers
+            var user = await appDbContext.RegularUsers
                 .Include(u => u.Read)
-                .Include(u => u.CurrentlyReading)
-                .Include(u => u.WantToRead)
-                .SingleOrDefault(u => u.Id == id);
+                .SingleOrDefaultAsync(u => u.Id == id);
+            return user.Read;
         }
     }
 }

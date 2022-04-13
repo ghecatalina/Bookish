@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Domain;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,24 +9,16 @@ using System.Threading.Tasks;
 
 namespace Application.Books.Queries.GetBooks
 {
-    public class GetBooksQueryHandler : IRequestHandler<GetBooksQuery, IEnumerable<BookViewModel>>
+    public class GetBooksQueryHandler : IRequestHandler<GetBooksQuery, IEnumerable<Book>>
     {
         private readonly IBookRepository _repository;
         public GetBooksQueryHandler(IBookRepository repository)
         {
             _repository = repository;
         }
-        public Task<IEnumerable<BookViewModel>> Handle(GetBooksQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Book>> Handle(GetBooksQuery request, CancellationToken cancellationToken)
         {
-            var result = _repository
-                .GetAll()
-                .Select(book => new BookViewModel
-                {
-                    Id = book.Id,
-                    Title = book.Title,
-                    Author = book.Author,
-                });
-            return Task.FromResult(result);
+            return await _repository.GetAll();
         }
     }
 }

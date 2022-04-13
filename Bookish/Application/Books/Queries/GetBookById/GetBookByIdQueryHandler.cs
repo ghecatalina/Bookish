@@ -19,7 +19,7 @@ namespace Application.Books.Queries.GetBookById
         public Task<Book> Handle(GetBookByIdQuery request, CancellationToken cancellationToken)
         {
             var book = _repository.GetById(request.Id);
-            return Task.FromResult(book);
+            return book;
         }
     }
 }

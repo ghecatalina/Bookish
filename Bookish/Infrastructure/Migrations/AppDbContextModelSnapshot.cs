@@ -81,9 +81,6 @@ namespace Infrastructure.Migrations
                     b.Property<int>("ListType")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("BookLists");

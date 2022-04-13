@@ -20,7 +20,7 @@ namespace Application.Reviews.Queries.GetReviewsByBook
         {
 
             var reviews = _repository.GetReviewsByBook(request.BookId);
-            return Task.FromResult(reviews);
+            return reviews;
         }
     }
 }
