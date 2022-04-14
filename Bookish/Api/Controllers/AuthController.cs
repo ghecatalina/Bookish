@@ -4,7 +4,6 @@ using AutoMapper;
 using Domain;
 using Domain.Entities;
 using Domain.Entities.Users;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -19,15 +18,13 @@ namespace Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly JwtSettings _jwtSettings;
-        public AuthController(IMediator mediator, IMapper mapper, UserManager<User> userManager,
+        public AuthController(IMapper mapper, UserManager<User> userManager,
             RoleManager<Role> roleManager, IOptionsSnapshot<JwtSettings> jwtSettings)
         {
-            _mediator = mediator;
             _mapper = mapper;
             _userManager = userManager;
             _roleManager = roleManager;
@@ -103,7 +100,7 @@ namespace Api.Controllers
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };

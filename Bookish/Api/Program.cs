@@ -10,6 +10,7 @@ using Infrastructure.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +49,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddMediatR(typeof(AssemblyMarker));
 builder.Services.AddScoped<IBookRepository, BookRepository>();
@@ -77,7 +80,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseDeveloperExceptionPage();
 app.UseAuth();
 app.UseHttpsRedirection();
 app.UseCors("EnableCORS");

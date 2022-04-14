@@ -14,9 +14,7 @@ namespace Api.Profiles
                 .ReverseMap();
 
             CreateMap<UserRegisterDto, RegularUser>()
-                .ForMember(p => p.UserName, opt => opt.MapFrom(s => s.Name))
-                .ForMember(p => p.Email, opt => opt.MapFrom(s => s.Email))
-                .ForMember(p => p.ProfilePicture, opt => opt.MapFrom(s => s.ProfilePicture))
+                .ForMember(u => u.UserName, opt => opt.MapFrom(x => x.Email))
                 .ReverseMap();
         }
     }
