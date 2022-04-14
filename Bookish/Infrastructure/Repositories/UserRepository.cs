@@ -22,13 +22,7 @@ namespace Infrastructure
         }
         public void ChangeUserDetails(string userId, string username, string password)
         {
-            
-        }
 
-        public async Task<User> LoginUser(string email, string password)
-        {
-            var user = GetAll().Result.Where(u => u.Email == email && u.Password == password).SingleOrDefault();
-            return await Task.FromResult(user);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Api.Dto;
 using Application.Users.Queries.GetRegularUserById;
-using Application.Users.Queries.LoginUser;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

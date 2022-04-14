@@ -21,8 +21,8 @@ namespace Application.Users.Commands.CreateRegularUser
             var user = new RegularUser 
             { 
                 Email = request.Email, 
-                Name = request.Name, 
-                Password = request.Password, 
+                UserName = request.Name, 
+                //Password = request.Password, 
                 ProfilePicture = request.ProfilePicture,
                 //Read = new BookList { ListType = ListType.Read , Books = new List<Book>()},
                 //CurrentlyReading = new BookList { ListType = ListType.CurrentlyReading, Books = new List<Book>() },

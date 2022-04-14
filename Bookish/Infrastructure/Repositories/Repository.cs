@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
 {
-    public class Repository<T> : IRepository<T> where T : Domain.BaseEntity
+    public class Repository<T> : IRepository<T> where T : class
     {
         protected readonly AppDbContext _context;
         private readonly DbSet<T> _entities;

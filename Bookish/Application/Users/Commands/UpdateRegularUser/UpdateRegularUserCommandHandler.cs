@@ -19,9 +19,9 @@ namespace Application.Users.Commands.UpdateRegularUser
         public async Task<RegularUser> Handle(UpdateRegularUserCommand request, CancellationToken cancellationToken)
         {
             RegularUser user =await _repository.GetByIdWithBookLists(request.Id);
-            user.Name = request.Name;
+            user.UserName = request.Name;
             user.Email = request.Email;
-            user.Password = request.Password;
+            //user.Password = request.Password;
             user.ProfilePicture = request.ProfilePicture;
             user.Reviews = request.Reviews;
             user.Read = request.Read;

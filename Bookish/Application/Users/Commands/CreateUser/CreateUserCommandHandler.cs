@@ -18,7 +18,7 @@ namespace Application.Users.Commands.CreateUser
         }
         public async Task<Unit> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var user = new User { Email = request.Email, Name = request.Name, Password = request.Password};
+            var user = new User { Email = request.Email, UserName = request.Name};
             await _repository.Add(user);
 
             return Unit.Value;

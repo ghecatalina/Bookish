@@ -10,7 +10,6 @@ namespace Api.Profiles
         {
             CreateMap<UserAuthDto, RegularUser>()
                 .ForMember(p => p.Email, opt => opt.MapFrom(s => s.RegularUserEmail))
-                .ForMember(p => p.Password, opt => opt.MapFrom(s => s.RegularUserPassword))
                 .ReverseMap();
 
         }
