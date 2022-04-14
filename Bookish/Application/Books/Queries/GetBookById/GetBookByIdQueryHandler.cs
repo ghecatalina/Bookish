@@ -16,9 +16,9 @@ namespace Application.Books.Queries.GetBookById
         {
             _repository = repository;
         }
-        public Task<Book> Handle(GetBookByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Book> Handle(GetBookByIdQuery request, CancellationToken cancellationToken)
         {
-            var book = _repository.GetById(request.Id);
+            var book = await _repository.GetById(request.Id);
             return book;
         }
     }

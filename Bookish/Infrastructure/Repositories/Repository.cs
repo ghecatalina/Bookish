@@ -26,7 +26,7 @@ namespace Infrastructure
 
         public async Task<T> GetById(int id)
         {
-            return await _entities.FindAsync(id);   
+            return await _entities.FindAsync(id);
         }
 
         public async Task Delete(int id)

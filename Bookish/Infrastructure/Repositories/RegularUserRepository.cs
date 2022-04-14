@@ -36,6 +36,7 @@ namespace Infrastructure.Repositories
         {
             var user = await appDbContext.RegularUsers
                 .Include(u => u.Read)
+                .Include(u => u.Read.Books)
                 .SingleOrDefaultAsync(u => u.Id == id);
             return user.Read;
         }

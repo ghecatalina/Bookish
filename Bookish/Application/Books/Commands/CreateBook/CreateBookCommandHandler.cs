@@ -16,12 +16,12 @@ namespace Application.Books.Commands.CreateBook
         {
             _repository = repository;
         }
-        public Task<Book> Handle(CreateBookCommand request, CancellationToken cancellationToken)
+        public async Task<Book> Handle(CreateBookCommand request, CancellationToken cancellationToken)
         {
             var book = new Book { Title = request.Title, Author = request.Author, BookCoverImage = request.BookCoverImage, Description = request.Description, Genre = request.Genre };
-            _repository.Add(book);
+            await _repository.Add(book);
 
-            return Task.FromResult(book);
+            return book;
         }
     }
 }
