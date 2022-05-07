@@ -1,0 +1,1 @@
+export const SET_BOOK_RESPONSES = 'SET_BOOK_RESPONSES';

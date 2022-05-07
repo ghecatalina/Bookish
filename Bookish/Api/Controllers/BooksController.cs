@@ -51,7 +51,7 @@ namespace Api.Controllers
         {
             var query = new GetBooksQuery();
             var result = await _mediator.Send(query);
-            var mappedResult = _mapper.Map<List<BookDto>>(result);
+            var mappedResult = _mapper.Map<List<BookGetDto>>(result);
             return Ok(mappedResult);
         }
 

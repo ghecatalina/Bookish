@@ -7,16 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BookLists\**" />
+    <EmbeddedResource Remove="BookLists\**" />
+    <None Remove="BookLists\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="10.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="BookLists\Commands\" />
-    <Folder Include="BookLists\Queries\" />
   </ItemGroup>
 
 </Project>
