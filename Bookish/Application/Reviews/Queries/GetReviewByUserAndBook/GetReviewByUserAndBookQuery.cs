@@ -10,7 +10,7 @@ namespace Application.Reviews.Queries.GetReviewByUserAndBook
 {
     public class GetReviewByUserAndBookQuery : IRequest<Review>
     {
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public int BookId { get; set; }
     }
 }

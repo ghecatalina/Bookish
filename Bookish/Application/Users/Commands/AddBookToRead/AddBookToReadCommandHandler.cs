@@ -11,9 +11,9 @@ namespace Application.Users.Commands.AddBookToReadList
 {
     public class AddBookToReadCommandHandler : IRequestHandler<AddBookToReadCommand, Unit>
     {
-        private readonly IRegularUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IBookRepository _bookRepository;
-        public AddBookToReadCommandHandler(IRegularUserRepository userRepository, IBookRepository bookRepository)
+        public AddBookToReadCommandHandler(IUserRepository userRepository, IBookRepository bookRepository)
         {
             _userRepository = userRepository;
             _bookRepository = bookRepository;
@@ -26,7 +26,7 @@ namespace Application.Users.Commands.AddBookToReadList
             {
                 user.Read.Books.Add(book);
             }
-            await _userRepository.Save();
+            _userRepository.Update(user);
             return Unit.Value;
         }
     }

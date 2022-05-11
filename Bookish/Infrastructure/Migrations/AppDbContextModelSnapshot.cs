@@ -53,11 +53,10 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Genre")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -66,6 +65,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Books");
                 });
@@ -84,6 +85,23 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BookLists");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Domain.Entities.Users.Role", b =>
@@ -132,17 +150,14 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("UserId1")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
                 });
@@ -160,9 +175,8 @@ namespace Infrastructure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("CurrentlyReadingId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -198,6 +212,13 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ProfilePicture")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ReadId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -208,7 +229,12 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<int?>("WantToReadId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CurrentlyReadingId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -218,9 +244,11 @@ namespace Infrastructure.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.HasIndex("ReadId");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
+                    b.HasIndex("WantToReadId");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -326,39 +354,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Admin", b =>
-                {
-                    b.HasBaseType("Domain.User");
-
-                    b.HasDiscriminator().HasValue("Admin");
-                });
-
-            modelBuilder.Entity("Domain.RegularUser", b =>
-                {
-                    b.HasBaseType("Domain.User");
-
-                    b.Property<int?>("CurrentlyReadingId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProfilePicture")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ReadId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("WantToReadId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("CurrentlyReadingId");
-
-                    b.HasIndex("ReadId");
-
-                    b.HasIndex("WantToReadId");
-
-                    b.HasDiscriminator().HasValue("RegularUser");
-                });
-
             modelBuilder.Entity("BookBookList", b =>
                 {
                     b.HasOne("Domain.BookList", null)
@@ -374,6 +369,17 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Book", b =>
+                {
+                    b.HasOne("Domain.Entities.Category", "Category")
+                        .WithMany("Books")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("Domain.Review", b =>
                 {
                     b.HasOne("Domain.Book", "Book")
@@ -382,15 +388,36 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.RegularUser", "User")
+                    b.HasOne("Domain.User", "User")
                         .WithMany("Reviews")
-                        .HasForeignKey("UserId1")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Book");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.User", b =>
+                {
+                    b.HasOne("Domain.BookList", "CurrentlyReading")
+                        .WithMany()
+                        .HasForeignKey("CurrentlyReadingId");
+
+                    b.HasOne("Domain.BookList", "Read")
+                        .WithMany()
+                        .HasForeignKey("ReadId");
+
+                    b.HasOne("Domain.BookList", "WantToRead")
+                        .WithMany()
+                        .HasForeignKey("WantToReadId");
+
+                    b.Navigation("CurrentlyReading");
+
+                    b.Navigation("Read");
+
+                    b.Navigation("WantToRead");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -444,33 +471,17 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.RegularUser", b =>
-                {
-                    b.HasOne("Domain.BookList", "CurrentlyReading")
-                        .WithMany()
-                        .HasForeignKey("CurrentlyReadingId");
-
-                    b.HasOne("Domain.BookList", "Read")
-                        .WithMany()
-                        .HasForeignKey("ReadId");
-
-                    b.HasOne("Domain.BookList", "WantToRead")
-                        .WithMany()
-                        .HasForeignKey("WantToReadId");
-
-                    b.Navigation("CurrentlyReading");
-
-                    b.Navigation("Read");
-
-                    b.Navigation("WantToRead");
-                });
-
             modelBuilder.Entity("Domain.Book", b =>
                 {
                     b.Navigation("Reviews");
                 });
 
-            modelBuilder.Entity("Domain.RegularUser", b =>
+            modelBuilder.Entity("Domain.Entities.Category", b =>
+                {
+                    b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("Domain.User", b =>
                 {
                     b.Navigation("Reviews");
                 });

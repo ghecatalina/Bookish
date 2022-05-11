@@ -12,15 +12,21 @@ namespace Application.Reviews.Commands.CreateReview
     internal class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, Review>
     {
         private readonly IReviewRepository _repository;
-        public CreateReviewCommandHandler(IReviewRepository repository)
+        private readonly IUserRepository _userRepository;
+        private readonly IBookRepository _bookRepository;
+        public CreateReviewCommandHandler(IReviewRepository repository, IUserRepository userRepository, IBookRepository bookRepository)
         {
             _repository = repository;
+            _userRepository = userRepository;
+            _bookRepository = bookRepository;
         }
-        public Task<Review> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
+        public async Task<Review> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
         {
-            var review = new Review { BookId = request.BookId, UserId = request.UserId, Rating = request.Rating, ReviewDescription = request.ReviewDescription };
+            var user = await _userRepository.GetById(request.UserId);
+            var book = await _bookRepository.GetById(request.BookId);
+            var review = new Review { BookId = request.BookId, Book = book, UserId = request.UserId, User = user, Rating = request.Rating, ReviewDescription = request.ReviewDescription };
             _repository.Add(review);
-            return Task.FromResult(review);
+            return review;
         }
     }
 }

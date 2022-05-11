@@ -8,5 +8,6 @@
         public string Description { get; set; }
         public string CoverImage { get; set; }
         public string Genre { get; set; }
+        public List<ReviewGetDto> Reviews { get; set; }
     }
 }

@@ -1,24 +1,32 @@
-import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import useStyle from './styles';
 
 const BookCard = ({book}) => {
+    const classes = useStyle();
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/books/${book.id}`);
+    }
 
     return(
-        <Card elevation={3} sx={{ maxWidth: 140 }} style={{paddingTop: '10px', paddingLeft: '5px', paddingRight: '5px'}}>
-            <div style={{height: '200', width: '100%'}}>
-                <CardMedia component="img" src={book.coverImage} />
+        <div style={{marginBottom: 20}} onClick={handleClick}>
+        <Paper elevation={3} style={{padding: 5}}>
+            <div style={{height: '250px', width: '150px'}}>
+                <img src={book.coverImage} style={{height: '100%', width: '100%'}}/>
             </div>
-            <CardContent>
-                <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                        <Typography variant="body2" fontWeight={600} fontSize={15}>{book.title}</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="body2" fontWeight={300} fontSize={12}>{book.author}</Typography>
-                    </Grid>
-                </Grid>
-            </CardContent>
-        </Card>
+            <div>
+                <p>
+                    <Typography component={'span'} variant="body2" style={{fontWeight: 550}}>{book.title}</Typography>
+                </p>
+                <p>
+                    <Typography component={'span'} variant="body2">{book.author}</Typography>
+                </p>
+            </div>
+        </Paper>
+        </div>
     );
 }
 

@@ -9,6 +9,7 @@ namespace Application.Interfaces
         Task<T> GetById(int id);
         Task Add(T entity);
         Task Delete(int id);
+        void Update(T entity);
         Task Save();
     }
 }

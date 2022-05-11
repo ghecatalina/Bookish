@@ -6,8 +6,10 @@ namespace Application.Interfaces
 {
     public interface IReviewRepository : IRepository<Review>
     {
-        Task<IEnumerable<Review>> GetReviewsByUser(int userId);
+        Task<IEnumerable<Review>> GetReviewsByUser(Guid userId);
         Task<IEnumerable<Review>> GetReviewsByBook(int bookId);
-        Task<Review> GetReviewsByUserAndBook(int userId, int bookId);
+        Task<Review> GetReviewsByUserAndBook(Guid userId, int bookId);
+        Task<Review> GetReviewById(int id);
+        Task UpdateReview(Review review);
     }
 }

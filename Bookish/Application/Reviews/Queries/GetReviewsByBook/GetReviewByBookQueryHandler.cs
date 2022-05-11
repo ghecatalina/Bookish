@@ -16,10 +16,11 @@ namespace Application.Reviews.Queries.GetReviewsByBook
         {
             _repository = repository;
         }
-        public Task<IEnumerable<Review>> Handle(GetReviewsByBookQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Review>> Handle(GetReviewsByBookQuery request, CancellationToken cancellationToken)
         {
 
-            var reviews = _repository.GetReviewsByBook(request.BookId);
+            var reviews = await _repository.GetReviewsByBook(request.BookId);
+            reviews = reviews.Where(r => r.UserId != request.UserId);
             return reviews;
         }
     }

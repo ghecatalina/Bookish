@@ -20,7 +20,7 @@ namespace Api.Controllers
 
         [HttpGet]
         [Route("readlist/{userId}")]
-        public async Task<IActionResult> GetReadList(int userId)
+        public async Task<IActionResult> GetReadList(Guid userId)
         {
             var query = new GetReadListQuery { Id = userId };
             var result = await _mediator.Send(query);

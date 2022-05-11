@@ -1,13 +1,15 @@
 ﻿using Application.Interfaces;
+using Domain;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 
 namespace Application.Users.Commands.AddBookToCurrentlyReading
 {
     internal class AddBookToCurrentlyReadingCommandHandler : IRequestHandler<AddBookToCurrentlyReadingCommand, Unit>
     {
-        private readonly IRegularUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IBookRepository _bookRepository;
-        public AddBookToCurrentlyReadingCommandHandler(IRegularUserRepository userRepository, IBookRepository bookRepository)
+        public AddBookToCurrentlyReadingCommandHandler(IUserRepository userRepository, IBookRepository bookRepository)
         {
             _userRepository = userRepository;
             _bookRepository = bookRepository;
@@ -20,7 +22,7 @@ namespace Application.Users.Commands.AddBookToCurrentlyReading
             {
                 user.CurrentlyReading.Books.Add(book);
             }
-            await _userRepository.Save();
+            _userRepository.Update(user);
             return Unit.Value;
         }
     }

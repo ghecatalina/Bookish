@@ -11,7 +11,7 @@ namespace Application.Users.Commands.AddBookToReadList
 {
     public class AddBookToReadCommand : IRequest<Unit>
     {
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public int BookId { get; set; }
     }
 }

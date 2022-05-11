@@ -41,7 +41,7 @@ namespace Api.Controllers
             if (loginResult)
             {
                 var roles = await _userManager.GetRolesAsync(user);
-                return Ok(GenerateJwt(user, roles));
+                return Ok( new {tk = GenerateJwt(user, roles) , Id = user.Id});
             }
             return BadRequest("Invalid credentials.");
         }
@@ -49,7 +49,7 @@ namespace Api.Controllers
         [HttpPost, Route("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegister)
         {
-            var user = _mapper.Map<UserRegisterDto, RegularUser>(userRegister);
+            var user = _mapper.Map<UserRegisterDto, User>(userRegister);
             var userCreateResult = await _userManager.CreateAsync(user, userRegister.Password);
             if (userCreateResult.Succeeded)
                 return Created(string.Empty, string.Empty);

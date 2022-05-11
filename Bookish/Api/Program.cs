@@ -3,14 +3,12 @@ using Api.Settings;
 using Application;
 using Application.Interfaces;
 using Domain;
-using Domain.Entities;
 using Domain.Entities.Users;
 using Infrastructure;
 using Infrastructure.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +34,7 @@ builder.Services.AddMediatR(typeof(AssemblyMarker));
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
-builder.Services.AddScoped<IRegularUserRepository, RegularUserRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<AppDbContext>(options =>

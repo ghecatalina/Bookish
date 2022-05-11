@@ -11,15 +11,18 @@ namespace Application.Books.Commands.CreateBook
 {
     public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Book>
     {
-        private readonly IBookRepository _repository;
-        public CreateBookCommandHandler(IBookRepository repository)
+        private readonly IBookRepository _bookRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        public CreateBookCommandHandler(IBookRepository bookRepository, ICategoryRepository categoryRepository)
         {
-            _repository = repository;
+            _bookRepository = bookRepository;
+            _categoryRepository = categoryRepository;
         }
         public async Task<Book> Handle(CreateBookCommand request, CancellationToken cancellationToken)
         {
-            var book = new Book { Title = request.Title, Author = request.Author, BookCoverImage = request.BookCoverImage, Description = request.Description, Genre = request.Genre };
-            await _repository.Add(book);
+            var category = await _categoryRepository.GetByName(request.CategoryName);
+            var book = new Book { Title = request.Title, Author = request.Author, BookCoverImage = request.BookCoverImage, Description = request.Description, Category = category };
+            await _bookRepository.Add(book);
 
             return book;
         }

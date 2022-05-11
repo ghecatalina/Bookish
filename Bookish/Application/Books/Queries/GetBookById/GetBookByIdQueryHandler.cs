@@ -18,7 +18,7 @@ namespace Application.Books.Queries.GetBookById
         }
         public async Task<Book> Handle(GetBookByIdQuery request, CancellationToken cancellationToken)
         {
-            var book = await _repository.GetById(request.Id);
+            var book = await _repository.GetBookById(request.Id);
             return book;
         }
     }

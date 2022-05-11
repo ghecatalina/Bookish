@@ -16,17 +16,29 @@ namespace Infrastructure
 
         public async Task<IEnumerable<Review>> GetReviewsByBook(int bookId)
         {
-            return await appDbContext.Reviews.Where(review => review.BookId == bookId).ToListAsync();
+            return await appDbContext.Reviews
+                .Include(r => r.User)
+                .Where(review => review.BookId == bookId).ToListAsync();
         }
 
-        public async Task<IEnumerable<Review>> GetReviewsByUser(int userId)
+        public async Task<IEnumerable<Review>> GetReviewsByUser(Guid userId)
         {
             return await appDbContext.Reviews.Where(review => review.UserId == userId).ToListAsync();
         }
 
-        public async Task<Review> GetReviewsByUserAndBook(int userId, int bookId)
+        public async Task<Review> GetReviewsByUserAndBook(Guid userId, int bookId)
         {
             return await appDbContext.Reviews.Where(review => review.UserId == userId && review.BookId == bookId).SingleOrDefaultAsync();
+        }
+
+        public async Task<Review> GetReviewById(int id)
+        {
+            return await appDbContext.Reviews.Include(r => r.User).FirstOrDefaultAsync(r => r.Id == id);
+        }
+
+        public async Task UpdateReview(Review review)
+        {
+            appDbContext.Entry(review).State = EntityState.Modified;
         }
     }
 }

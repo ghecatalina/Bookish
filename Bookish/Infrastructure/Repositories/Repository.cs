@@ -36,6 +36,12 @@ namespace Infrastructure
             await _context.SaveChangesAsync();
         }
 
+        public void Update(T entity)
+        {
+            _entities.Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
+        }
+
         public async Task Save()
         {
             await _context.SaveChangesAsync();

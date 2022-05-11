@@ -9,7 +9,7 @@ namespace Application.Users.Commands.AddBookToCurrentlyReading
 {
     public class AddBookToCurrentlyReadingCommand : IRequest<Unit>
     {
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public int BookId { get; set; }
     }
 }

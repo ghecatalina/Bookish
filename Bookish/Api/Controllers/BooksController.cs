@@ -37,7 +37,7 @@ namespace Api.Controllers
 
 
         [HttpGet]
-        [Route("{userId}")]
+        [Route("/ReadList/{userId}")]
         public async Task<IActionResult> GetReadList(int userId)
         {
             var query = new  GetBookByIdQuery { Id = userId };

@@ -11,8 +11,8 @@ namespace Application.Users.Queries.GetReadList
 {
     public class GetReadListQueryHandler : IRequestHandler<GetReadListQuery, BookList>
     {
-        private readonly IRegularUserRepository _repository;
-        public GetReadListQueryHandler(IRegularUserRepository repository)
+        private readonly IUserRepository _repository;
+        public GetReadListQueryHandler(IUserRepository repository)
         {
             _repository = repository;
         }

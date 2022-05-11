@@ -1,5 +1,4 @@
 ﻿using Api.Dto;
-using Application.Users.Queries.GetRegularUserById;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +17,7 @@ namespace Api.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        /*[HttpGet]
         [Route("{userId}")]
         public async Task<IActionResult> GetById(int userId)
         {
@@ -30,6 +29,6 @@ namespace Api.Controllers
 
             var mappedResult = _mapper.Map<RegularUserGetDto>(result);
             return Ok(mappedResult);
-        }
+        }*/
     }
 }

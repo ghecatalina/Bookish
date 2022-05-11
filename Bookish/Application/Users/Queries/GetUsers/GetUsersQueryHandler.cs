@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Application.Users.Queries.GetUsers
 {
-    internal class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, IEnumerable<User>>
+    internal class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, List<User>>
     {
         private readonly IUserRepository _repository;
         public GetUsersQueryHandler(IUserRepository repository)
         {
             _repository = repository;
         }
-        public Task<IEnumerable<User>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+        public Task<List<User>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
             var result = _repository.GetAll();
             return result;

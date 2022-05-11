@@ -8,7 +8,7 @@ namespace Api.Profiles
     {
         public UserProfile()
         {
-            CreateMap<UserAuthDto, RegularUser>()
+            CreateMap<UserAuthDto, User>()
                 .ForMember(p => p.Email, opt => opt.MapFrom(s => s.RegularUserEmail))
                 .ReverseMap();
 

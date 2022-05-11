@@ -26,7 +26,9 @@ const SignIn = () => {
         api.post('/auth/login', userInfo)
           .then(function (response) {
             dispatch({type: 'SET_USER_INFO', payload: response.data })
-
+            localStorage.setItem('token', response.data.tk);
+            localStorage.setItem('id', response.data.id);
+            navigate('/books');
           })
           .catch(function (error) {
             console.log(error);

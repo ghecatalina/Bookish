@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace Application.Users.Commands.UpdateRegularUser
 {
-    public class UpdateRegularUserCommandHandler : IRequestHandler<UpdateRegularUserCommand, RegularUser>
+    public class UpdateRegularUserCommandHandler : IRequestHandler<UpdateRegularUserCommand, User>
     {
-        private readonly IRegularUserRepository _repository;
-        public UpdateRegularUserCommandHandler(IRegularUserRepository repository)
+        private readonly IUserRepository _repository;
+        public UpdateRegularUserCommandHandler(IUserRepository repository)
         {
             _repository = repository;
         }
-        public async Task<RegularUser> Handle(UpdateRegularUserCommand request, CancellationToken cancellationToken)
+        public async Task<User> Handle(UpdateRegularUserCommand request, CancellationToken cancellationToken)
         {
-            RegularUser user =await _repository.GetByIdWithBookLists(request.Id);
+            User user =await _repository.GetByIdWithBookLists(request.Id);
             user.UserName = request.Name;
             user.Email = request.Email;
             //user.Password = request.Password;
@@ -28,7 +28,7 @@ namespace Application.Users.Commands.UpdateRegularUser
             user.CurrentlyReading = request.CurrentlyReading;
             user.WantToRead = request.WantToRead;
             //_repository.Update(user);
-            await _repository.Save();
+            _repository.Update(user);
             return user;
             
         }

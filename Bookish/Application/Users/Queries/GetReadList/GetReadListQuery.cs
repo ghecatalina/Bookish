@@ -10,6 +10,6 @@ namespace Application.Users.Queries.GetReadList
 {
     public class GetReadListQuery : IRequest<BookList>
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
     }
 }
