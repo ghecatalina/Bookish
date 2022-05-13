@@ -40,5 +40,10 @@ namespace Infrastructure
         {
             appDbContext.Entry(review).State = EntityState.Modified;
         }
+
+        public async Task<IEnumerable<Review>> GetAllReviews()
+        {
+            return await appDbContext.Reviews.Include(r => r.User).ToListAsync();
+        }
     }
 }

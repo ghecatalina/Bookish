@@ -1,6 +1,8 @@
 import { Button, Grid, Paper, TextField, Typography } from "@mui/material";
 import React, { useState, useContext } from "react";
 import FileBase from 'react-file-base64';
+import { useDispatch } from "react-redux";
+import { add_book } from "../../actions/books";
 import BooksContext from "../../context/booksContext/BooksContext";
 import api from '../../services/api';
 import NavBar from "../NavBar/NavBar";
@@ -13,8 +15,9 @@ const initialState = {
     genre: ''};
 
 const AddBook = () => {
-    const {book, dispatch} = useContext(BooksContext);
+    //const {book, dispatch} = useContext(BooksContext);
     const [formData, setFormData] = useState(initialState);
+    const dispatch = useDispatch();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,14 +33,15 @@ const AddBook = () => {
             coverImage: formData.coverImage,
             genre: formData.genre
         }
-        api.post('/v1/Books', bookInfo)
+        dispatch(add_book(bookInfo));
+        /*api.post('/v1/Books', bookInfo)
           .then(function (response) {
             dispatch({type: 'SET_BOOK_RESPONSES', payload: response.data })
 
           })
           .catch(function (error) {
             console.log(error);
-          });
+          });*/
     }
 
     return(

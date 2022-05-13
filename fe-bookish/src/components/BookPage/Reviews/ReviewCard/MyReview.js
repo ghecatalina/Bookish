@@ -6,12 +6,15 @@ import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 import { Box } from "@mui/system";
 import api from "../../../../services/api";
+import { useDispatch } from "react-redux";
+import { delete_review, update_review } from "../../../../actions/reviews";
 
 const userId = localStorage.getItem('id');
 
 const MyReview = ({review, bookId}) => {
     const[editable, setEditable] = useState(false);
     const [reviewState, setReviewState] = useState({id: review.id, userId: review.userId, bookId: bookId, rating: review.rating, reviewDescription: review.reviewDescription});
+    const dispatch = useDispatch();
 
     const handleReset = () => {
         console.log(review.rating);
@@ -28,26 +31,28 @@ const MyReview = ({review, bookId}) => {
             rating: reviewState.rating,
             reviewDescription: reviewState.reviewDescription
         };
-        api.put(`/v1/Reviews/${reviewState.id}`, reviewUpdate)
+        /*api.put(`/v1/Reviews/${reviewState.id}`, reviewUpdate)
         .then((response) => {
             console.log(response.data);
             //setReview(response.data);
         })
         .catch(function (error) {
             console.log(error);
-        });
+        });*/
+        dispatch(update_review(reviewState.id, reviewUpdate));
         setEditable(!editable);
     }
 
     const handleDeleteReview = () => {
-        api.delete(`/v1/Reviews/${reviewState.id}`)
+        /*api.delete(`/v1/Reviews/${reviewState.id}`)
         .then((response) => {
             console.log(response.data);
             //setReview(response.data);
         })
         .catch(function (error) {
             console.log(error);
-        });
+        });*/
+        dispatch(delete_review(reviewState.id));
         //setEditable(!editable);
     }
 

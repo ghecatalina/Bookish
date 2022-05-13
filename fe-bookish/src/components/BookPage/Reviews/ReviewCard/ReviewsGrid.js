@@ -9,7 +9,7 @@ const ReviewsGrid = ({reviews}) => {
                 <Typography variant="h5">Reviews</Typography>
             </Grid>
             {
-                !reviews.length ? <CircularProgress /> :
+                !reviews.length ? <Typography>No reviews</Typography> :
                     <Grid container>
                         {
                             reviews.map( (review) => {

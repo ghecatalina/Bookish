@@ -3,6 +3,7 @@
     public class ReviewGetDto
     {
         public int Id { get; set; }
+        public int BookId { get; set; }
         public Guid UserId { get; set; }
         public string Username { get; set; }
         public string Photo { get; set; }

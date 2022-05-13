@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Users.Commands.AddBookToWantToRead
+namespace Application.Users.Queries.GetIfInAnyList
 {
-    public class AddBookToWantToReadCommand : IRequest<Unit>
+    public class GetIfInAnyListQuery : IRequest<BListType>
     {
-        public Guid UserId { get; set; }
         public int BookId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

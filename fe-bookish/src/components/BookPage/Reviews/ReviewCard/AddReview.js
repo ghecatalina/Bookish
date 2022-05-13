@@ -1,13 +1,16 @@
 import { Button, Grid, Rating, TextField, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { add_review } from "../../../../actions/reviews";
 import ReviewsContext from "../../../../context/reviewsContext/ReviewsContext";
 import api from "../../../../services/api";
 
 const userId = localStorage.getItem('id');
 
 const AddReview = ({bookId}) => {
-    const {review, dispatch} = useContext(ReviewsContext);
+    //const {review, dispatch} = useContext(ReviewsContext);
     const[reviewForm, setReview] = useState({ rating: 0, reviewDescription: ''});
+    const dispatch = useDispatch();
 
     const handleAddReview = (e) => {
         e.preventDefault();
@@ -18,15 +21,17 @@ const AddReview = ({bookId}) => {
             rating: reviewForm.rating,
             reviewDescription: reviewForm.reviewDescription
         };
-        console.log("In handle Add Review =>"+reviewInfo);
-        api.post('v1/Reviews', reviewInfo)
+        //console.log("In handle Add Review =>"+reviewInfo);
+        /*api.post('v1/Reviews', reviewInfo)
         .then((response) => {
             console.log(response.data);
-            dispatch({type: 'SET_REVIEW_RESPONSES', payload: response.data })
+            //dispatch({type: 'ADD_REVIEW', payload: response.data })
         })
         .catch(function (error) {
             console.log(error);
-        });
+        });*/
+        console.log(reviewInfo);
+        dispatch(add_review(reviewInfo));
     }
 
     return (

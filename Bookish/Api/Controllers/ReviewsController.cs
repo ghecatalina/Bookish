@@ -2,7 +2,9 @@
 using Application.Reviews.Commands.CreateReview;
 using Application.Reviews.Commands.DeleteReview;
 using Application.Reviews.Commands.UpdateReview;
+using Application.Reviews.Queries.GetAllReviews;
 using Application.Reviews.Queries.GetNoOfReviews;
+using Application.Reviews.Queries.GetRating;
 using Application.Reviews.Queries.GetReviewById;
 using Application.Reviews.Queries.GetReviewByUserAndBook;
 using Application.Reviews.Queries.GetReviewsByBook;
@@ -97,11 +99,30 @@ namespace Api.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> DeleteCategory(int id)
+        public async Task<IActionResult> DeleteReview(int id)
         {
             var command = new DeleteReviewCommand { Id = id };
             var result = await _mediator.Send(command);
             return NoContent();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllReviews()
+        {
+            var query = new GetAllReviewsQuery();
+            var result = await _mediator.Send(query);
+            var mappedResult = _mapper.Map<IEnumerable<ReviewGetDto>>(result);
+            return Ok(mappedResult);
+        }
+
+        [HttpGet]
+        [Route("rating")]
+        public async Task<IActionResult> GetRating(int id)
+        {
+            var query = new GetRatingQuery() { BookId = id };
+            var result = await _mediator.Send(query);
+            var mappedResult = _mapper.Map<RatingGetDto>(result);
+            return Ok(mappedResult);
         }
     }
 }

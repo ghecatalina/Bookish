@@ -20,7 +20,7 @@ namespace Application.Reviews.Queries.GetNoOfReviews
             var reviews = await reviewRepository.GetReviewsByBook(request.Id);
             var reviewsGrouped = reviews.GroupBy(r => r.Rating);
             var ratingsNo = new List<RatingGroup>();
-            for (int i = 5; i >= 1; i--)
+            for (int i = 1; i <= 5; i++)
             {
                 ratingsNo.Add(new RatingGroup() { Rating = i });
             }

@@ -25,7 +25,7 @@ namespace Application.Reviews.Commands.CreateReview
             var user = await _userRepository.GetById(request.UserId);
             var book = await _bookRepository.GetById(request.BookId);
             var review = new Review { BookId = request.BookId, Book = book, UserId = request.UserId, User = user, Rating = request.Rating, ReviewDescription = request.ReviewDescription };
-            _repository.Add(review);
+            await _repository.Add(review);
             return review;
         }
     }

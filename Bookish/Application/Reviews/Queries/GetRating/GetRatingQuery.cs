@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Users.Commands.AddBookToCurrentlyReading
+namespace Application.Reviews.Queries.GetRating
 {
-    public class AddBookToCurrentlyReadingCommand : IRequest<Unit>
+    public class GetRatingQuery : IRequest<RatingDto>
     {
-        public Guid UserId { get; set; }
         public int BookId { get; set; }
     }
 }

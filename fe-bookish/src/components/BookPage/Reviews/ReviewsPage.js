@@ -1,5 +1,7 @@
 import { CircularProgress, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { get_reviews } from "../../../actions/reviews";
 import api from "../../../services/api";
 import GeneralReviews from "./ReviewCard/GeneralReviews";
 import ReviewCard from "./ReviewCard/ReviewCard";
@@ -9,6 +11,7 @@ const userId = localStorage.getItem('id');
 
 const ReviewsPage = ({noOfRatings, bookId}) => {
     const [reviews, setReviews] = useState([]);
+    //const dispatch = useDispatch();
 
     useEffect(() => {
         api.get(`/v1/Reviews/withoutCurrUser?bookId=${bookId}&userId=${userId}`)

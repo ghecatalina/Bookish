@@ -16,9 +16,9 @@ namespace Application.Users.Queries.GetUserById
         {
             _repository = repository;
         }
-        public Task<User> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+        public async Task<User> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
-            var user = _repository.GetById(request.Id);
+            var user = await _repository.GetByIdWithBookLists(request.Id);
             return user;
         }
     }

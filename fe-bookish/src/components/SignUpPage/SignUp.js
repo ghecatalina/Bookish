@@ -5,13 +5,16 @@ import FileBase from 'react-file-base64';
 import { useNavigate } from "react-router-dom";
 import api from '../../services/api';
 import AuthContext from "../../context/authContext/AuthContext";
+import { useDispatch } from "react-redux";
+import { signup } from "../../actions/auth";
 
 const initialState = {name: '', email: '', password: '', confirmPassword: '', profilePicture: ''};
 
 export default function SignUp() {
-    const {user, dispatch} = useContext(AuthContext);
+    //const {user, dispatch} = useContext(AuthContext);
     const navigate = useNavigate();
     const [formData, setFormData] = useState(initialState);
+    const dispatch = useDispatch();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,7 +22,7 @@ export default function SignUp() {
         console.log(formData);
     }
 
-    const sendSignUpData = () => {
+    const sendSignUpData = (e) => {
         if (formData.password !== formData.confirmPassword){
             console.log("Password don't match.");
             return;
@@ -30,14 +33,16 @@ export default function SignUp() {
             password: formData.password,
             profilePicture: formData.profilePicture
         }
-        api.post('/auth/register', userInfo)
+        /*api.post('/auth/register', userInfo)
           .then(function (response) {
             dispatch({type: 'SET_USER_INFO', payload: response.data })
 
           })
           .catch(function (error) {
             console.log(error);
-          });
+          });*/
+          e.preventDefault();
+          dispatch(signup(userInfo));
     }
 
     const goToSignIn = () => {

@@ -1,4 +1,5 @@
 ﻿using Api.Dto;
+using Application.Users.Queries.GetUserById;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,18 +18,32 @@ namespace Api.Controllers
             _mapper = mapper;
         }
 
-        /*[HttpGet]
+        [HttpGet]
         [Route("{userId}")]
-        public async Task<IActionResult> GetById(int userId)
+        public async Task<IActionResult> GetById(Guid userId)
         {
-            var query = new GetRegularUserByIdQuery { Id = userId };
+            var query = new GetUserByIdQuery { Id = userId };
             var result = await _mediator.Send(query);
 
             if (result == null)
                 return NotFound();
 
-            var mappedResult = _mapper.Map<RegularUserGetDto>(result);
+            var mappedResult = _mapper.Map<UserWithBookListsDto>(result);
             return Ok(mappedResult);
-        }*/
+        }
+
+        [HttpGet]
+        [Route("image/{userId}")]
+        public async Task<IActionResult> GetProfileImage(Guid userId)
+        {
+            var query = new GetUserByIdQuery { Id = userId };
+            var result = await _mediator.Send(query);
+
+            if (result == null)
+                return NotFound();
+
+            var mappedResult = _mapper.Map<ProfilePictureDto>(result);
+            return Ok(mappedResult);
+        }
     }
 }

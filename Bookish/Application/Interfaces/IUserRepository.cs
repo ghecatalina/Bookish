@@ -12,6 +12,8 @@ namespace Application.Interfaces
         void Update(User user);
         Task<User> GetById(Guid id);
         Task<List<User>> GetAll();
+        void UpdateUser(User user);
+        Task Save();
         //Task ChangeUserDetails(string userId, string username, string password);
     }
 }

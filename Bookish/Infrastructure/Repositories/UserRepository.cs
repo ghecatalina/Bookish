@@ -77,5 +77,15 @@ namespace Infrastructure
         {
             _userManager.UpdateAsync(user);
         }
+
+        public async void UpdateUser(User user)
+        {
+             await _userManager.UpdateAsync(user);
+        }
+
+        public async Task Save()
+        {
+            await _appDbContext.SaveChangesAsync();
+        }
     }
 }

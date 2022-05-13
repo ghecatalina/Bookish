@@ -4,13 +4,16 @@ import library from '../../images/library.jfif';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import AuthContext from "../../context/authContext/AuthContext";
+import { useDispatch } from "react-redux";
+import { signin } from "../../actions/auth";
 
 const initialState = {email: '', password: ''};
 
 const SignIn = () => {
-    const {user, dispatch} = useContext(AuthContext);
+    //const {user, dispatch} = useContext(AuthContext);
     const navigate = useNavigate();
     const [formData, setFormData] = useState(initialState);
+    const dispatch = useDispatch();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,21 +21,13 @@ const SignIn = () => {
         console.log(formData);
     }
 
-    const sendSignInData = () => {
+    const sendSignInData = (e) => {
         const userInfo = {
             regularUserEmail: formData.email,
             regularUserPassword: formData.password,
         }
-        api.post('/auth/login', userInfo)
-          .then(function (response) {
-            dispatch({type: 'SET_USER_INFO', payload: response.data })
-            localStorage.setItem('token', response.data.tk);
-            localStorage.setItem('id', response.data.id);
-            navigate('/books');
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+        e.preventDefault();
+        dispatch(signin(userInfo, navigate));
     }
 
     const goToSignUp = () => {
