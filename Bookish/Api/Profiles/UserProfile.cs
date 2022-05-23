@@ -17,10 +17,18 @@ namespace Api.Profiles
                 .ForPath(p => p.Read.Books, opt => opt.MapFrom(s => s.Read))
                 .ForPath(p => p.CurrentlyReading.Books, opt => opt.MapFrom(s => s.CurrentlyReading))
                 .ForPath(p => p.WantToRead.Books, opt => opt.MapFrom(s => s.WantToRead))
-                .ForMember(p => p.UserName, opt => opt.MapFrom(s => s.Name))
+                .ForMember(p => p.Name, opt => opt.MapFrom(s => s.Name))
+                .ForMember(p => p.Email, opt => opt.MapFrom(s => s.Email))
+                .ForMember(p => p.ProfilePicture, opt => opt.MapFrom(s => s.ProfilePicture))
                 .ReverseMap();
 
             CreateMap<ProfilePictureDto, User>()
+                .ForMember(p => p.ProfilePicture, opt => opt.MapFrom(s => s.ProfilePicture))
+                .ReverseMap();
+            
+            CreateMap<UserInfoDto, User>()
+                .ForMember(p => p.Name, opt => opt.MapFrom(s => s.Name))
+                .ForMember(p => p.Email, opt => opt.MapFrom(s => s.Email))
                 .ForMember(p => p.ProfilePicture, opt => opt.MapFrom(s => s.ProfilePicture))
                 .ReverseMap();
 

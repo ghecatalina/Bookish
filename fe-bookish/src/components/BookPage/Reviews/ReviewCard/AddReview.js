@@ -1,9 +1,7 @@
 import { Button, Grid, Rating, TextField, Typography } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { add_review } from "../../../../actions/reviews";
-import ReviewsContext from "../../../../context/reviewsContext/ReviewsContext";
-import api from "../../../../services/api";
 
 const userId = localStorage.getItem('id');
 
@@ -40,7 +38,7 @@ const AddReview = ({bookId}) => {
                 <Typography variant="h6">Add your review</Typography>
             </Grid>
             <Grid item xs={12}>
-                <Rating  defaultValue={0}  onChange={(event, newValue) => {setReview({...reviewForm, rating: Number(newValue)}); }}/>
+                <Rating  defaultValue={0} style={{color: '#C68A5D'}} onChange={(event, newValue) => {setReview({...reviewForm, rating: Number(newValue)}); }}/>
             </Grid>
             <Grid item xs={12}>
                 <TextField variant="outlined" multiline rows={5} fullWidth onChange={(e) => {setReview({...reviewForm, reviewDescription: e.target.value}); }}/> 

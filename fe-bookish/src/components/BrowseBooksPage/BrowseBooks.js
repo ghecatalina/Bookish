@@ -1,15 +1,8 @@
-import { CircularProgress, Grid } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { get_categories } from "../../actions/categories";
 import { get_profile_picture } from "../../actions/profilePicture";
-import { getCategories } from "../../api";
-import BooksContext from "../../context/booksContext/BooksContext";
-import CategoriesContext from "../../context/categoriesContext/CategoriesContext";
-import api from "../../services/api";
 import NavBar from "../NavBar/NavBar";
-import BookCard from "./BookCard/BookCard";
-import BooksCarousel from "./BooksCarousel/BooksCarousel";
 import BrowseBooksCarousel from "./BrowseBooksCarousels";
 
 const userId = localStorage.getItem('id');

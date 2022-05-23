@@ -1,16 +1,9 @@
-import { CircularProgress, Divider, Grid, Rating, Typography } from "@mui/material";
+import { CircularProgress, Divider, Rating, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
-import { get_book } from "../../actions/books";
 import { get_if_any } from "../../actions/ifAny";
 import api from "../../services/api";
-import NavBar from "../NavBar/NavBar";
 import ReadListButton from "./ReadListButton/ReadListButton";
-import GeneralReviews from "./Reviews/ReviewCard/GeneralReviews";
-import NoOfReviews from "./Reviews/ReviewCard/NoOfReviews";
-import ReviewCard from "./Reviews/ReviewCard/ReviewCard";
-import ReviewsGrid from "./Reviews/ReviewCard/ReviewsGrid";
 import ReviewsPage from "./Reviews/ReviewsPage";
 
 const userId = localStorage.getItem('id');
@@ -81,7 +74,7 @@ const BookDetails = ({id, rating}) => {
                 </div>
             </div>
             <Divider variant="middle" flexItem style={{padding: 20}}/>
-            <ReviewsPage noOfRatings={noOfRatings} bookId={id}/>
+            <ReviewsPage noOfRatings={noOfRatings} bookId={id} reviews={book.reviews}/>
             </>
             }
             </>

@@ -10,6 +10,10 @@ const Dropdown = () => {
             navigate('/mybooks');
     }
 
+    const goToMyAccount = () => {
+        navigate('/myaccount');
+    }
+
     const handleLogout = () => {
         localStorage.removeItem('tk');
         localStorage.removeItem('id');
@@ -20,7 +24,7 @@ const Dropdown = () => {
         <ButtonGroup orientation="vertical" className="submenu" variant="text" style={{background: '#AD9786', color:'white', borderColor: 'white'}}>
             <Button name="read" style={{color: 'white', border: 'white'}} onClick={goToBooklist}>My Books</Button>
             <Divider flexItem style={{background: 'white'}}/>
-            <Button name="read" style={{color: 'white', border: 'white'}} >My Account</Button>
+            <Button name="read" style={{color: 'white', border: 'white'}} onClick={goToMyAccount}>My Account</Button>
             <Divider flexItem style={{background: 'white'}}/>
             <Button style={{color: 'white', border: 'white'}} onClick={handleLogout}>Logout</Button>
         </ButtonGroup>

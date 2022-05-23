@@ -62,7 +62,7 @@ const MyReview = ({review, bookId}) => {
                 <Typography variant="h6">Your review</Typography>
             </Grid>
             <Grid item xs={12}>
-            <Rating name="half-rating" value={reviewState.rating} readOnly={!editable} onChange={(e) => setReviewState({...reviewState, rating: Number(e.target.value)})} /> 
+            <Rating name="half-rating" value={reviewState.rating} style={{color: '#C68A5D'}} readOnly={!editable} onChange={(e) => setReviewState({...reviewState, rating: Number(e.target.value)})} /> 
             </Grid>
             <Grid item xs={12}>
                 <TextField variant="outlined" name="review" multiline rows={5} value={reviewState.reviewDescription} fullWidth disabled={!editable} onChange={(e) => setReviewState({...reviewState, reviewDescription: e.target.value})}/>

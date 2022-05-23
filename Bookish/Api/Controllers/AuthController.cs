@@ -41,7 +41,7 @@ namespace Api.Controllers
             if (loginResult)
             {
                 var roles = await _userManager.GetRolesAsync(user);
-                return Ok( new {tk = GenerateJwt(user, roles) , Id = user.Id});
+                return Ok( new {tk = GenerateJwt(user, roles) , Id = user.Id, role = roles});
             }
             return BadRequest("Invalid credentials.");
         }
@@ -51,9 +51,29 @@ namespace Api.Controllers
         {
             var user = _mapper.Map<UserRegisterDto, User>(userRegister);
             var userCreateResult = await _userManager.CreateAsync(user, userRegister.Password);
+            var result = await _userManager.AddToRoleAsync(user, "regular");
             if (userCreateResult.Succeeded)
                 return Created(string.Empty, string.Empty);
             return Problem(userCreateResult.Errors.First().Description, null, 500);
+        }
+
+        [HttpPut]
+        [Route("update")]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDto userUpdate)
+        {
+            var user = await _userManager.FindByIdAsync(userUpdate.Id.ToString());
+            if (user == null)
+                return BadRequest();
+            user.Name = userUpdate.Name;
+            user.ProfilePicture = userUpdate.ProfilePicture;
+            await _userManager.UpdateAsync(user);
+            if (userUpdate.Password != "")
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var result = await _userManager.ResetPasswordAsync(user, token, userUpdate.Password);
+            }
+            return Ok(user);
+
         }
 
         [HttpPost("Roles")]

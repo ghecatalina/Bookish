@@ -3,8 +3,6 @@ import React, {useContext, useState} from "react";
 import library from '../../images/library.jfif';
 import FileBase from 'react-file-base64';
 import { useNavigate } from "react-router-dom";
-import api from '../../services/api';
-import AuthContext from "../../context/authContext/AuthContext";
 import { useDispatch } from "react-redux";
 import { signup } from "../../actions/auth";
 

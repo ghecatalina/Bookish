@@ -87,6 +87,7 @@ const NavBar = () => {
     }
 
     return(
+        avatar &&
         <>
         <AppBar position="static" style={{background: '#AD9786'}}>
             <Container maxWidth="xl" >

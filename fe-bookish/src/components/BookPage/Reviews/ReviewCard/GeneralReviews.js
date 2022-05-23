@@ -11,8 +11,8 @@ const userId = localStorage.getItem('id');
 
 const GeneralReviews = ({noOfRatings, bookId}) => {
     //const [noOfRatings, setNoOfRatings] = useState([]);
-    //const [review, setReview] = useState(null);
-    const allReviews = useSelector((state) => state.reviews);
+    const [review, setReview] = useState(null);
+    //const allReviews = useSelector((state) => state.reviews);
     const dispatch = useDispatch();
 
     function getTotalOfReviews() {
@@ -20,7 +20,7 @@ const GeneralReviews = ({noOfRatings, bookId}) => {
         return sum;
     }
 
-    useEffect( () => {
+    /*useEffect( () => {
         dispatch(get_reviews());
     }, [dispatch]);
 
@@ -35,9 +35,9 @@ const GeneralReviews = ({noOfRatings, bookId}) => {
     console.log("My review");
     console.log(reviews);
 
-    const review = reviews[0];
-    
-    /*useEffect(() => {
+    const review = reviews[0];*/
+
+    useEffect(() => {
         api.get(`/v1/Reviews/userBook?bookId=${bookId}&userId=${userId}`)
         .then((response) => {
             console.log(response.data);
@@ -46,7 +46,7 @@ const GeneralReviews = ({noOfRatings, bookId}) => {
         .catch(function (error) {
             console.log(error);
         });
-    }, []);*/
+    }, []);
 
     /*useEffect(() => {
         api.get(`/v1/Reviews/ratings/${bookId}`)

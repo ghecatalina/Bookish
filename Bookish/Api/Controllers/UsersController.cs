@@ -45,5 +45,18 @@ namespace Api.Controllers
             var mappedResult = _mapper.Map<ProfilePictureDto>(result);
             return Ok(mappedResult);
         }
+
+        [HttpGet]
+        [Route("info/{userId}")]
+        public async Task<IActionResult> GetUserInfo(Guid userId)
+        {
+            var query = new GetUserByIdQuery { Id = userId };
+            var result = await _mediator.Send(query);
+            if (result == null)
+                return NotFound();
+
+            var mappedResult = _mapper.Map<UserInfoDto>(result);
+            return Ok(mappedResult);
+        }
     }
 }

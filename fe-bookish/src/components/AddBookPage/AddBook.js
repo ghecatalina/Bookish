@@ -3,8 +3,6 @@ import React, { useState, useContext } from "react";
 import FileBase from 'react-file-base64';
 import { useDispatch } from "react-redux";
 import { add_book } from "../../actions/books";
-import BooksContext from "../../context/booksContext/BooksContext";
-import api from '../../services/api';
 import NavBar from "../NavBar/NavBar";
 
 const initialState = {
