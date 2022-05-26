@@ -15,6 +15,8 @@ const GeneralReviews = ({noOfRatings, bookId}) => {
     //const allReviews = useSelector((state) => state.reviews);
     const dispatch = useDispatch();
 
+    const ifAny = useSelector((state) => state.ifAny);
+
     function getTotalOfReviews() {
         const sum = noOfRatings.reduce((total, currVal) => total = total + Number(currVal.noRating), 0);
         return sum;

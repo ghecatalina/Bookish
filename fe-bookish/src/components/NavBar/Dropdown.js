@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./Dropdown.css";
 
 const Dropdown = () => {
+    const role = localStorage.getItem('role');
     const navigate = useNavigate();
 
     const goToBooklist = (e) => {
@@ -12,6 +13,10 @@ const Dropdown = () => {
 
     const goToMyAccount = () => {
         navigate('/myaccount');
+    }
+
+    const goToAddBook = () => {
+        navigate('/addbook');
     }
 
     const handleLogout = () => {
@@ -23,6 +28,7 @@ const Dropdown = () => {
     return(
         <ButtonGroup orientation="vertical" className="submenu" variant="text" style={{background: '#AD9786', color:'white', borderColor: 'white'}}>
             <Button name="read" style={{color: 'white', border: 'white'}} onClick={goToBooklist}>My Books</Button>
+            <Button name="read" style={{color: 'white', border: 'white'}} onClick={goToAddBook}>Add Book</Button>
             <Divider flexItem style={{background: 'white'}}/>
             <Button name="read" style={{color: 'white', border: 'white'}} onClick={goToMyAccount}>My Account</Button>
             <Divider flexItem style={{background: 'white'}}/>

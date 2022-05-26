@@ -9,6 +9,7 @@ import { api } from "../../api";
 import { useDispatch, useSelector } from "react-redux";
 import { get_profile_picture } from "../../actions/profilePicture";
 import Dropdown from "./Dropdown";
+import SearchBar from "./SearchBar";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -111,17 +112,7 @@ const NavBar = () => {
                             </NavLink>
                         </Grid>
                     </Grid>
-                                <Search>
-                                <SearchIconWrapper>
-                                <SearchIcon onClick={handleSearch}/>
-                                </SearchIconWrapper>
-                                <StyledInputBase
-                                name="search"
-                                placeholder="Search…"
-                                inputProps={{ 'aria-label': 'search' }}
-                                onChange={handleChange}
-                                />
-                            </Search>
+                                <SearchBar />
                             {avatar && <Avatar alt="avatar" src={avatar.profilePicture} sx={{ width: 56, height: 56 }} onClick={() => setDropDown(!dropdown)}/> }
                             
                 </Toolbar>

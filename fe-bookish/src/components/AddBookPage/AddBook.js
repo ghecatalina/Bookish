@@ -2,7 +2,9 @@ import { Button, Grid, Paper, TextField, Typography } from "@mui/material";
 import React, { useState, useContext } from "react";
 import FileBase from 'react-file-base64';
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { add_book } from "../../actions/books";
+import { api } from "../../api";
 import NavBar from "../NavBar/NavBar";
 
 const initialState = {
@@ -16,6 +18,8 @@ const AddBook = () => {
     //const {book, dispatch} = useContext(BooksContext);
     const [formData, setFormData] = useState(initialState);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [id, setId] = useState(null);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -31,15 +35,15 @@ const AddBook = () => {
             coverImage: formData.coverImage,
             genre: formData.genre
         }
-        dispatch(add_book(bookInfo));
-        /*api.post('/v1/Books', bookInfo)
+        //dispatch(add_book(bookInfo));
+        api.post('/v1/Books', bookInfo)
           .then(function (response) {
             dispatch({type: 'SET_BOOK_RESPONSES', payload: response.data })
-
+            navigate(`/books/${response.data.id}`);
           })
           .catch(function (error) {
             console.log(error);
-          });*/
+          });
     }
 
     return(
