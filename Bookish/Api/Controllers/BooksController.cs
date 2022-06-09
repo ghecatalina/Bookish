@@ -36,18 +36,9 @@ namespace Api.Controllers
         }
 
 
-        [HttpGet]
-        [Route("/ReadList/{userId}")]
-        public async Task<IActionResult> GetReadList(int userId)
-        {
-            var query = new  GetBookByIdQuery { Id = userId };
-            var result = await _mediator.Send(query);
-            var mappedResult = _mapper.Map<BookDto>(result);
-            return Ok(mappedResult);
-        }
 
         [HttpGet]
-        public async Task<IActionResult> Getall()
+        public async Task<IActionResult> GetAll()
         {
             var query = new GetBooksQuery();
             var result = await _mediator.Send(query);

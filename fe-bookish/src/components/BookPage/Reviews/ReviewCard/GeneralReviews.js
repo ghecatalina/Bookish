@@ -4,8 +4,7 @@ import NoOfReviews from "./NoOfReviews";
 import api from '../../../../services/api';
 import AddReview from "./AddReview";
 import MyReview from "./MyReview";
-import { useDispatch, useSelector } from "react-redux";
-import { get_reviews } from "../../../../actions/reviews";
+import { useSelector } from "react-redux";
 
 const userId = localStorage.getItem('id');
 
@@ -13,9 +12,6 @@ const GeneralReviews = ({noOfRatings, bookId}) => {
     //const [noOfRatings, setNoOfRatings] = useState([]);
     const [review, setReview] = useState(null);
     //const allReviews = useSelector((state) => state.reviews);
-    const dispatch = useDispatch();
-
-    const ifAny = useSelector((state) => state.ifAny);
 
     function getTotalOfReviews() {
         const sum = noOfRatings.reduce((total, currVal) => total = total + Number(currVal.noRating), 0);
@@ -48,7 +44,7 @@ const GeneralReviews = ({noOfRatings, bookId}) => {
         .catch(function (error) {
             console.log(error);
         });
-    }, []);
+    }, [bookId]);
 
     /*useEffect(() => {
         api.get(`/v1/Reviews/ratings/${bookId}`)

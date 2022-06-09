@@ -1,9 +1,8 @@
 import { Button, Grid, Paper, TextField, Typography } from "@mui/material";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import FileBase from 'react-file-base64';
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { add_book } from "../../actions/books";
 import { api } from "../../api";
 import NavBar from "../NavBar/NavBar";
 
@@ -19,12 +18,9 @@ const AddBook = () => {
     const [formData, setFormData] = useState(initialState);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [id, setId] = useState(null);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-        console.log(e.target.value);
-        console.log(formData);
     }
 
     const sendNewBook = () => {

@@ -23,7 +23,7 @@ const SearchBar = () => {
       });
 
     return(
-        <Autocomplete
+        <Autocomplete style={{paddingRight: '60px'}}
         freeSolo
         id="free-solo-2-demo"
         disableClearable

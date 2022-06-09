@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Container, Divider, Grid, Typography } from "@mui/material";
+import { Button, ButtonGroup, Divider } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -21,8 +21,6 @@ const ReadListButton = ({formData}) => {
 
     const ifAny = useSelector((state) => state.ifAny);
     //setListForm({...listForm, fromListType: ifAny.listType});
-    console.log("In ReadList");
-    console.log(ifAny);
 
     return(
         <ButtonGroup variant="text" style={{background: '#AD9786'}}>
