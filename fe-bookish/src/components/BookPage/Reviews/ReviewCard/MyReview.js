@@ -53,6 +53,7 @@ const MyReview = ({review, bookId}) => {
             console.log(error);
         });*/
         dispatch(delete_review(reviewState.id));
+        window.location.reload();
         //setEditable(!editable);
     }
 

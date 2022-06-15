@@ -28,7 +28,7 @@ const ReviewsPage = ({noOfRatings, bookId, reviews}) => {
 
     useEffect( () => {
         setWithoutCurrentReviews(reviews.filter(r => r.userId !== userId));
-    }, []);
+    }, [reviews]);
 
     console.log('Aici');
     console.log(myReview);
@@ -37,7 +37,7 @@ const ReviewsPage = ({noOfRatings, bookId, reviews}) => {
         {!reviews && !withoutCurrentReviews && !myReview ? <CircularProgress /> :
         <Grid container justifyContent="center">
             <Grid item xs={6}>
-                <GeneralReviews noOfRatings={noOfRatings} bookId={bookId} />
+                <GeneralReviews noOfRatings={noOfRatings} bookId={bookId}/>
             </Grid>
             <Grid item xs={6}>
                 <ReviewsGrid reviews={withoutCurrentReviews} />

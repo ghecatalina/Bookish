@@ -2,6 +2,7 @@ import { Button, Grid, Rating, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { add_review } from "../../../../actions/reviews";
+import { api } from "../../../../api";
 
 const userId = localStorage.getItem('id');
 
@@ -20,16 +21,18 @@ const AddReview = ({bookId}) => {
             reviewDescription: reviewForm.reviewDescription
         };
         //console.log("In handle Add Review =>"+reviewInfo);
-        /*api.post('v1/Reviews', reviewInfo)
-        .then((response) => {
-            console.log(response.data);
-            //dispatch({type: 'ADD_REVIEW', payload: response.data })
-        })
-        .catch(function (error) {
-            console.log(error);
-        });*/
-        console.log(reviewInfo);
+        // api.post('v1/Reviews', reviewInfo)
+        // .then((response) => {
+        //     console.log(response.data);
+        //     dispatch({type: 'ADD_REVIEW', payload: response.data })
+        // })
+        // .catch(function (error) {
+        //     console.log(error);
+        // });
+        //console.log(reviewInfo);
         dispatch(add_review(reviewInfo));
+        window.location.reload();
+        //window.scrollTo({bottom: 1000});
     }
 
     return (

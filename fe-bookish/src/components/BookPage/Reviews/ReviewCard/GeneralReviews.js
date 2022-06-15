@@ -4,7 +4,6 @@ import NoOfReviews from "./NoOfReviews";
 import api from '../../../../services/api';
 import AddReview from "./AddReview";
 import MyReview from "./MyReview";
-import { useSelector } from "react-redux";
 
 const userId = localStorage.getItem('id');
 

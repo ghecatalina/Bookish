@@ -1,14 +1,14 @@
 import { CircularProgress, Divider, Rating, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { get_if_any } from "../../actions/ifAny";
 import api from "../../services/api";
 import ReadListButton from "./ReadListButton/ReadListButton";
 import ReviewsPage from "./Reviews/ReviewsPage";
 
-const userId = localStorage.getItem('id');
 
 const BookDetails = ({id, rating}) => {
+    const userId = localStorage.getItem('id');
     const [book, setBook] = useState(null);
     const [noOfRatings, setNoOfRatings] = useState([]);
     const dispatch = useDispatch();
@@ -17,6 +17,8 @@ const BookDetails = ({id, rating}) => {
     useEffect( () => {
         dispatch(get_if_any(ifAnyForm));
     }, [dispatch]);
+
+    const ifAny = useSelector((state) => state.ifAny);
 
     useEffect(() => {
         api.get(`/v1/Reviews/ratings/${id}`)

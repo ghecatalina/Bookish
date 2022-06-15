@@ -4,9 +4,9 @@ import { api } from "../../api";
 import NavBar from "../NavBar/NavBar";
 import FileBase from 'react-file-base64';
 
-const userId = localStorage.getItem('id');
 
 const MyAccountPage = () => {
+    const userId = localStorage.getItem('id');
     const [user, setUser] = useState({name: '', email: '', profilePicture: '', password: '', confirmPassword: ''});
     const [isEditable, setIsEditable] = useState(false);
     const [err, setErr] = useState('');

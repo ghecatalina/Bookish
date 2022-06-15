@@ -2,6 +2,7 @@ import { Paper, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import useStyle from './styles';
+import "./style.css";
 
 const BookCard = ({book}) => {
     const classes = useStyle();
@@ -12,7 +13,7 @@ const BookCard = ({book}) => {
     }
 
     return(
-        <div style={{marginBottom: 20}} onClick={handleClick}>
+        <div className="box" style={{marginBottom: 20}} onClick={handleClick}>
         <Paper elevation={3} style={{padding: 5}}>
             <div style={{height: '250px', width: '150px'}}>
                 <img src={book.coverImage} style={{height: '100%', width: '100%'}}/>

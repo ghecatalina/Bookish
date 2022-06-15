@@ -20,6 +20,7 @@ const ReadListButton = ({formData}) => {
     }, [dispatch]);
 
     const ifAny = useSelector((state) => state.ifAny);
+    console.log(ifAny);
     //setListForm({...listForm, fromListType: ifAny.listType});
 
     return(

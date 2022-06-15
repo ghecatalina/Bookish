@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { get_profile_picture } from "../../actions/profilePicture";
 import Dropdown from "./Dropdown";
 import SearchBar from "./SearchBar";
+import "./avatar.css";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -54,16 +55,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const userId = localStorage.getItem('id');
-
 const NavBar = () => {
+    const userId = localStorage.getItem('id');
     const [search, setSearch] = useState({search: ''});
     const [dropdown, setDropDown] = useState(false);
-    //const [avatar, setAvatar] = useState(null);
-    const avatar = useSelector((state) => state.profilePicture);
+    const [avatar, setAvatar] = useState(null);
+    // const avatar = useSelector((state) => state.profilePicture);
     const dispatch = useDispatch();
 
-    /*useEffect( () => {
+    useEffect( () => {
         api.get(`v1/Users/image/${userId}`)
         .then(response => {
             setAvatar(response.data);
@@ -71,11 +71,11 @@ const NavBar = () => {
         .catch(function (error) {
             console.log(error);
         })
-    }, [])*/
+    }, [userId])
 
-    useEffect( () => {
-        dispatch(get_profile_picture(userId));
-    }, [dispatch]);
+    // useEffect( () => {
+    //     dispatch(get_profile_picture(userId));
+    // }, [dispatch]);
 
     const handleChange = (e) => {
         setSearch({ ...search, [e.target.name]: e.target.value });
@@ -113,7 +113,7 @@ const NavBar = () => {
                         </Grid>
                     </Grid>
                                 <SearchBar />
-                            {avatar && <Avatar alt="avatar" src={avatar.profilePicture} sx={{ width: 56, height: 56 }} onClick={() => setDropDown(!dropdown)}/> }
+                            {avatar && <Avatar className="avatar" alt="avatar" src={avatar.profilePicture} sx={{ width: 56, height: 56 }} onClick={() => setDropDown(!dropdown)}/> }
                             
                 </Toolbar>
             </Container>

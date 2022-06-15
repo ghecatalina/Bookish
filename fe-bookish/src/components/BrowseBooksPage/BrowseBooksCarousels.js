@@ -13,7 +13,8 @@ const BrowseBooksCarousel = () => {
             <div>
                 <Grid container spacing={4} justifyContent="flex-start" style={{paddingLeft: '40px', paddingRight: '40px', paddingTop: '30px'}} >
                     {categoryList.map( (category) => {
-                        return (
+
+                        if (category.books.length !== 0) return (
                             <BooksCarousel category={category} key={category.id}/>
                         )
                     })}

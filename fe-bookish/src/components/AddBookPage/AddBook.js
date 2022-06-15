@@ -1,5 +1,6 @@
-import { Button, Grid, Paper, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { Autocomplete, Button, Grid, Paper, TextField, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import React, { useEffect, useState } from "react";
 import FileBase from 'react-file-base64';
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +19,17 @@ const AddBook = () => {
     const [formData, setFormData] = useState(initialState);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [genres, setGenres] = useState([]);
+
+    useEffect(() => {
+        api.get('v1/Category')
+        .then(response => {
+            setGenres(response.data);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }, [])
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -70,7 +82,30 @@ const AddBook = () => {
                             <TextField name="author" label="Author" fullWidth variant="standard" onChange={handleChange}/>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField name="genre" label="Genre" fullWidth variant="standard" onChange={handleChange}/>
+                        <Autocomplete
+                        disablePortal
+                        id="combo-box-demo"
+                        options={genres}
+                        fullWidth
+                        getOptionLabel={(option) => option.categoryName}
+                        // name="genre"
+                        onChange={(event, newValue) => {setFormData({...formData, genre: newValue.categoryName})}}
+                        renderOption={(props, option) => (
+                            <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                                {option.categoryName}
+                            </Box>
+                        )} 
+                        renderInput={(params) => 
+                            <TextField
+                            {...params}
+                            label="Choose a genre"
+                            inputProps={{
+                                ...params.inputProps,
+                                autoComplete: 'new-password', // disable autocomplete and autofill
+                            }}
+                            />
+                        }
+                        />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField name="description" multiline minRows={5} label="Description" fullWidth variant="standard" onChange={handleChange}/>

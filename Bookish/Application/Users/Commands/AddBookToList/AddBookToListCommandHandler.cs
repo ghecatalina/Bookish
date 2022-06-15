@@ -50,7 +50,7 @@ namespace Application.Users.Commands.AddBookToList
                 user.CurrentlyReading.Books.Add(book);
             }else if (request.ToListType == "wanttoread")
             {
-                user.CurrentlyReading.Books.Add(book);
+                user.WantToRead.Books.Add(book);
             }
             if (request.FromListType == "none")
             {
@@ -71,7 +71,7 @@ namespace Application.Users.Commands.AddBookToList
             }
             else if (request.ToListType == "wanttoread")
             {
-                user.CurrentlyReading.Books.Remove(book);
+                user.WantToRead.Books.Remove(book);
                 await _userRepository.Save();
                 return new BListType() { BookListType = request.ToListType };
             }

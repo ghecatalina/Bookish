@@ -4,14 +4,25 @@ import library from '../../images/library.jfif';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { signin } from "../../actions/auth";
+import { useForm } from 'react-hook-form';
+import { api } from "../../api";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const initialState = {email: '', password: ''};
 
+const schema = yup.object().shape({
+    email: yup.string().email().required(),
+    password: yup.string().min(8).max(32).required(),
+  });
+
 const SignIn = () => {
     //const {user, dispatch} = useContext(AuthContext);
+    const {register, handleSubmit, formState: {errors}, reset} = useForm({resolver: yupResolver(schema)});
     const navigate = useNavigate();
     const [formData, setFormData] = useState(initialState);
     const dispatch = useDispatch();
+    const [err, setErr] = useState("");
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,13 +30,24 @@ const SignIn = () => {
         console.log(formData);
     }
 
-    const sendSignInData = (e) => {
+    const sendSignInData = (data) => {
         const userInfo = {
-            regularUserEmail: formData.email,
-            regularUserPassword: formData.password,
+            regularUserEmail: data.email,
+            regularUserPassword: data.password,
         }
-        e.preventDefault();
-        dispatch(signin(userInfo, navigate));
+        //e.preventDefault();
+        api.post('auth/login', userInfo)
+        .then(response => {
+            localStorage.setItem('tk', response?.data.tk);
+            localStorage.setItem('id', response?.data.id);
+            localStorage.setItem('role', response?.data.role);
+            navigate('/books');
+        })
+        .catch(err => {
+            console.log(err);
+            setErr(err.response.data);
+        })
+        reset();
     }
 
     const goToSignUp = () => {
@@ -43,26 +65,17 @@ const SignIn = () => {
 
                 <Grid item xs={12} sm={6} md={6} lg={6} xl={6} display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
                     <Paper class="paper" style={{width: '350px'}}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <Typography variant="subtitle1">Welcome back</Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Typography variant="h5">Login to your account</Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField name="email" type="text" label="Email" variant="standard" fullWidth onChange={handleChange}/>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField name="password" type="password" label="Password" variant="standard" fullWidth onChange={handleChange}/>
-                            </Grid>
-                            <Grid item justifyContent="center" alignItems="center">
-                                <Button variant="contained" style={{backgroundColor: "#E1C4AE"}} onClick={sendSignInData}>Login</Button>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button variant="text" size="small" onClick={goToSignUp}>Don't have an account? Sign Up</Button>
-                            </Grid>
-                        </Grid>
+                        <Typography variant="subtitle1">Welcome back</Typography>
+                        <Typography variant="h5">Login to your account</Typography>
+                        <form onSubmit={handleSubmit(data => sendSignInData(data))}>
+                            <TextField {...register("email", {required: "This field is required"})} type="text" label="Email" variant="standard" fullWidth style={{paddingTop: '10px', paddingBottom: '10px'}}/>
+                            <Typography color='red' variant="body2">{errors.email?.message}</Typography>
+                            <TextField {...register("password", {required: "This field is required", minLength: {value: 8, message: "Min length is 8"}})} type="password" label="Password" variant="standard" fullWidth style={{paddingTop: '10px', paddingBottom: '10px'}}/>
+                            <Typography color='red' variant="body2">{errors.password?.message}</Typography>
+                            <Typography color='red' variant="body2">{err}</Typography>
+                            <Button variant="contained" style={{backgroundColor: "#E1C4AE"}} type="submit">Login</Button>
+                        </form>
+                        <Button variant="text" size="small" onClick={goToSignUp}>Don't have an account? Sign Up</Button>
                     </Paper>
                 </Grid>
             </Grid>
